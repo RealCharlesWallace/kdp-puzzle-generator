@@ -233,7 +233,7 @@ const HomePage: React.FC = () => {
         </aside>
 
         {/* Main Content */}
-        <section className="relative flex min-h-[420px] flex-1 flex-col gap-6 overflow-hidden rounded-xl border border-white/50 bg-white/60 p-6 shadow-sm backdrop-blur-sm md:min-h-0">
+        <section className="relative flex min-h-[60vh] flex-1 flex-col gap-6 overflow-hidden rounded-xl border border-white/50 bg-white/60 p-6 shadow-sm backdrop-blur-sm md:min-h-0">
           <div className="z-10 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-slate-800">Preview</h2>
             <div className="flex items-center gap-2">
@@ -249,7 +249,7 @@ const HomePage: React.FC = () => {
             </div>
           </div>
 
-          <div className="relative flex min-h-[320px] flex-1 items-center justify-center overflow-hidden md:min-h-0">
+          <div className="relative flex min-h-[50vh] flex-1 items-center justify-center overflow-hidden md:min-h-0">
             {/* Background Pattern */}
             <div
               className="pointer-events-none absolute inset-0 opacity-[0.03]"
