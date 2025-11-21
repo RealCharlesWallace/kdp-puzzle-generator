@@ -105,6 +105,11 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
     } else {
       ctx.fillRect(gridX, gridY, gridWidth, gridHeight);
     }
+    // Make sure shadows do not bleed into cells/letters on small screens
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
 
     // Shadow if enabled
     if (theme.style.useShadows) {
