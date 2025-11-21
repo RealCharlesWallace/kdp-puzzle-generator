@@ -29,7 +29,9 @@ const HomePage: React.FC = () => {
   const [titleInput, setTitleInput] = useState(title);
   const [showSolution, setShowSolution] = useState(false);
   const [showDocs, setShowDocs] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
   const maxTitleLength = 60;
+  const minWords = 5;
 
   const capacityInfo = useMemo(() => {
     const totalLetters = words.reduce((sum, w) => sum + w.replace(/\s+/g, '').length, 0);
@@ -49,11 +51,22 @@ const HomePage: React.FC = () => {
     };
   }, [words, config.gridSize, config.shape]);
 
-  const generationBlocked = !capacityInfo.fits || words.length < 5 || isGenerating;
+  const generationBlocked = !capacityInfo.fits || isGenerating;
 
   const handleWordsChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
     setInputWords(e.target.value);
     setWords(e.target.value.split('\n').filter((w) => w.trim().length > 0));
+  };
+
+  const handleGenerateClick = (): void => {
+    if (words.length < minWords) {
+      const remaining = Math.max(0, minWords - words.length);
+      const plural = remaining === 1 ? '' : 's';
+      setToastMessage(`Add ${remaining} more word${plural} (minimum ${minWords}) to generate.`);
+      setTimeout(() => setToastMessage(null), 2500);
+      return;
+    }
+    void generatePuzzle();
   };
 
   return (
@@ -85,6 +98,12 @@ const HomePage: React.FC = () => {
       </header>
 
       <main className="container mx-auto flex flex-col gap-6 px-4 py-6 sm:px-6 sm:py-8 lg:h-[calc(100vh-73px)] lg:flex-row lg:gap-8">
+        {/* Toast notification */}
+        {toastMessage && (
+          <div className="fixed bottom-6 left-1/2 z-50 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 rounded-lg border border-amber-200 bg-white px-4 py-3 text-sm font-medium text-amber-800 shadow-lg">
+            {toastMessage}
+          </div>
+        )}
         {/* Sidebar Controls */}
         <aside className="flex w-full flex-shrink-0 flex-col gap-6 rounded-xl border border-white/50 bg-white/60 p-6 pb-8 shadow-sm backdrop-blur-sm lg:w-80">
           <div className="space-y-4">
@@ -221,9 +240,7 @@ const HomePage: React.FC = () => {
               </div>
             )}
             <button
-              onClick={() => {
-                void generatePuzzle();
-              }}
+              onClick={handleGenerateClick}
               disabled={generationBlocked}
               className="w-full rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 font-semibold text-white shadow-md transition-all hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
             >
