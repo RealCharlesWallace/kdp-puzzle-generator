@@ -95,10 +95,14 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-rose-50 to-sky-50 font-sans text-slate-900">
-      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200/60 bg-white/80 px-6 py-4 shadow-sm backdrop-blur-md">
+      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200/60 bg-white/85 px-6 py-4 shadow-sm backdrop-blur-md">
         <div className="flex items-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-amber-400 text-base font-bold text-white shadow-md">
-            HC
+          <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-amber-100 bg-gradient-to-br from-pink-200 to-amber-200 shadow">
+            <img
+              src="/assets/images/clara_wallace_photo.jpg"
+              alt="Clara Wallace"
+              className="h-full w-full object-cover"
+            />
           </div>
           <h1 className="bg-gradient-to-r from-slate-900 to-blue-700 bg-clip-text text-xl font-bold tracking-tight text-transparent">
             Hello Crossword
@@ -137,7 +141,7 @@ const HomePage: React.FC = () => {
           </div>
         )}
         {/* Sidebar Controls */}
-        <aside className="flex w-full flex-shrink-0 flex-col gap-6 rounded-xl border border-white/50 bg-white/70 p-6 pb-8 shadow-sm backdrop-blur-sm lg:w-80">
+        <aside className="flex w-full flex-shrink-0 flex-col gap-6 rounded-xl border border-white/60 bg-white p-6 pb-8 shadow-sm lg:w-80">
           <div className="space-y-4">
             <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400">
               Configuration
@@ -299,7 +303,7 @@ const HomePage: React.FC = () => {
         </aside>
 
         {/* Main Content */}
-        <section className="relative flex min-h-[60vh] flex-1 flex-col gap-6 overflow-hidden rounded-xl border border-white/50 bg-white/60 p-6 shadow-sm backdrop-blur-sm md:min-h-0">
+        <section className="relative flex min-h-[60vh] flex-1 flex-col gap-6 overflow-hidden rounded-xl border border-white/60 bg-white p-6 shadow-sm md:min-h-0">
           <div className="z-10 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-slate-800">Preview</h2>
             <div className="flex items-center gap-2">
