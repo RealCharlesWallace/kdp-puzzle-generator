@@ -21,8 +21,10 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
 
     // Handle responsive sizing
     useEffect(() => {
-        const updateDimensions = () => {
-            if (!containerRef.current) return;
+        const updateDimensions = (): void => {
+            if (!containerRef.current) {
+                return;
+            }
 
             const container = containerRef.current;
             const rect = container.getBoundingClientRect();
@@ -59,10 +61,14 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
 
     useEffect(() => {
         const canvas = canvasRef.current;
-        if (!canvas || dimensions.width === 0) return;
+        if (!canvas || dimensions.width === 0) {
+            return;
+        }
 
         const ctx = canvas.getContext('2d');
-        if (!ctx) return;
+        if (!ctx) {
+            return;
+        }
 
         const padding = 20;
         const availableWidth = Math.max(0, dimensions.width - padding * 2);
@@ -116,7 +122,9 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
 
         grid.cells.forEach((row, rowIndex) => {
             row.forEach((cell, colIndex) => {
-                if (cell.masked) return;
+                if (cell.masked) {
+                    return;
+                }
 
                 const x = padding + colIndex * cellSize;
                 const y = padding + rowIndex * cellSize;
@@ -188,12 +196,16 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
             ctx.lineJoin = 'round';
 
             placedWords.forEach((word) => {
-                if (word.positions.length === 0) return;
+                if (word.positions.length === 0) {
+                    return;
+                }
 
                 const startPos = word.positions[0];
                 const endPos = word.positions[word.positions.length - 1];
 
-                if (!startPos || !endPos) return;
+                if (!startPos || !endPos) {
+                    return;
+                }
 
                 const startX = padding + startPos.col * cellSize + cellSize / 2;
                 const startY = padding + startPos.row * cellSize + cellSize / 2;

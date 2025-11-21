@@ -26,7 +26,7 @@ const HomePage: React.FC = () => {
   const [showSolution, setShowSolution] = useState(false);
   const [showDocs, setShowDocs] = useState(false);
 
-  const handleWordsChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleWordsChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
     setInputWords(e.target.value);
     setWords(e.target.value.split('\n').filter((w) => w.trim().length > 0));
   };
@@ -162,7 +162,9 @@ const HomePage: React.FC = () => {
               </div>
             )}
             <button
-              onClick={() => generatePuzzle()}
+              onClick={() => {
+                void generatePuzzle();
+              }}
               disabled={isGenerating || words.length < 5}
               className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg active:scale-[0.98]"
             >

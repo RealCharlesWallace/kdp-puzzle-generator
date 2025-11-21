@@ -66,18 +66,26 @@ export class WordPlacer {
         // Check bounds and conflicts
         for (let i = 0; i < positions.length; i++) {
             const pos = positions[i];
-            if (!pos) continue;
+            if (!pos) {
+                continue;
+            }
             const { row: r, col: c } = pos;
 
             // Check bounds
-            if (r < 0 || r >= grid.size || c < 0 || c >= grid.size) return false;
+            if (r < 0 || r >= grid.size || c < 0 || c >= grid.size) {
+                return false;
+            }
 
             // Check mask
             const cell = grid.cells[r]?.[c];
-            if (!cell || cell.masked) return false;
+            if (!cell || cell.masked) {
+                return false;
+            }
 
             // Check conflicts
-            if (cell.letter && cell.letter !== word[i]) return false;
+            if (cell.letter && cell.letter !== word[i]) {
+                return false;
+            }
         }
 
         return true;

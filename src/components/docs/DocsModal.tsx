@@ -6,7 +6,9 @@ interface DocsModalProps {
 }
 
 export const DocsModal: React.FC<DocsModalProps> = ({ isOpen, onClose }) => {
-    if (!isOpen) return null;
+    if (!isOpen) {
+        return null;
+    }
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
@@ -40,8 +42,8 @@ export const DocsModal: React.FC<DocsModalProps> = ({ isOpen, onClose }) => {
                                 <li><strong>Enter Words:</strong> Type your words in the sidebar (one per line, minimum 5 words)</li>
                                 <li><strong>Configure:</strong> Adjust grid size (10-25), difficulty, and shape</li>
                                 <li><strong>Choose Theme:</strong> Select a PDF theme for your export</li>
-                                <li><strong>Generate:</strong> Click "Generate Puzzle" to create your word search</li>
-                                <li><strong>Export:</strong> Click "Export PDF" to download your puzzle</li>
+                                <li><strong>Generate:</strong> Click &quot;Generate Puzzle&quot; to create your word search</li>
+                                <li><strong>Export:</strong> Click &quot;Export PDF&quot; to download your puzzle</li>
                             </ol>
                         </section>
 
@@ -139,11 +141,11 @@ export const DocsModal: React.FC<DocsModalProps> = ({ isOpen, onClose }) => {
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <span className="text-blue-600 font-bold">•</span>
-                                    <span><strong>Preview:</strong> Use "Show Solution" to verify word placement</span>
+                                    <span><strong>Preview:</strong> Use &quot;Show Solution&quot; to verify word placement</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <span className="text-blue-600 font-bold">•</span>
-                                    <span><strong>KDP Publishing:</strong> All PDFs are formatted for Amazon KDP (8.5" x 11")</span>
+                                    <span><strong>KDP Publishing:</strong> All PDFs are formatted for Amazon KDP (8.5&quot; x 11&quot;)</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <span className="text-blue-600 font-bold">•</span>

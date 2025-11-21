@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { usePuzzleStore } from '@/store/puzzleStore';
+import { DifficultyLevel } from '@/types/puzzle';
 
 /**
  * Generator page component
@@ -30,8 +31,8 @@ export function GeneratorPage(): JSX.Element {
     setWords(wordList);
   };
 
-  const handleGenerate = async (): Promise<void> => {
-    await generatePuzzle();
+  const handleGenerate = (): void => {
+    void generatePuzzle();
   };
 
   return (
@@ -124,7 +125,7 @@ export function GeneratorPage(): JSX.Element {
                 <label className="mb-2 block text-sm font-medium text-gray-700">Difficulty</label>
                 <select
                   value={config.difficulty}
-                  onChange={(e) => setDifficulty(e.target.value as any)}
+                  onChange={(e) => setDifficulty(e.target.value as DifficultyLevel)}
                   className="w-full rounded-lg border border-gray-300 p-2 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                 >
                   <option value="easy">Easy</option>

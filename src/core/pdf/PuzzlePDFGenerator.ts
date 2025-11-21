@@ -103,7 +103,9 @@ export class PuzzlePDFGenerator {
         for (let row = 0; row < puzzle.grid.size; row++) {
             for (let col = 0; col < puzzle.grid.size; col++) {
                 const cell = puzzle.grid.cells[row]?.[col];
-                if (!cell || cell.masked) continue;
+                if (!cell || cell.masked) {
+                    continue;
+                }
 
                 const x = gridX + col * cellSize;
                 const y = gridY + row * cellSize;
@@ -212,7 +214,9 @@ export class PuzzlePDFGenerator {
         for (let row = 0; row < puzzle.grid.size; row++) {
             for (let col = 0; col < puzzle.grid.size; col++) {
                 const cell = puzzle.grid.cells[row]?.[col];
-                if (!cell || cell.masked) continue;
+                if (!cell || cell.masked) {
+                    continue;
+                }
 
                 const x = gridX + col * cellSize;
                 const y = gridY + row * cellSize;
@@ -245,12 +249,16 @@ export class PuzzlePDFGenerator {
         doc.setLineCap('round');
 
         puzzle.placedWords.forEach((word) => {
-            if (word.positions.length === 0) return;
+            if (word.positions.length === 0) {
+                return;
+            }
 
             const startPos = word.positions[0];
             const endPos = word.positions[word.positions.length - 1];
 
-            if (!startPos || !endPos) return;
+            if (!startPos || !endPos) {
+                return;
+            }
 
             const startX = gridX + startPos.col * cellSize + cellSize / 2;
             const startY = gridY + startPos.row * cellSize + cellSize / 2;

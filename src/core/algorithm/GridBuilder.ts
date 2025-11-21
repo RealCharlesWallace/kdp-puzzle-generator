@@ -29,7 +29,9 @@ export class GridBuilder {
     }
 
     private static generateShapeMask(shape: ShapeType, size: number): boolean[][] {
-        const mask: boolean[][] = Array(size).fill(null).map(() => Array(size).fill(true));
+        const mask: boolean[][] = Array.from({ length: size }, () =>
+            Array<boolean>(size).fill(true)
+        );
 
         if (shape === 'circle') {
             const center = (size - 1) / 2;
