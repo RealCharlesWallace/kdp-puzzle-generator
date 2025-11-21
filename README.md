@@ -78,7 +78,7 @@
 
 ## Demo
 
-**Live Demo**: [https://clara-puzzles.com](https://clara-puzzles.com) (placeholder)
+**Live Demo**: [https://realcharleswallace.github.io/kdp-puzzle-generator/](https://realcharleswallace.github.io/kdp-puzzle-generator/)
 
 **Screenshot Previews**:
 
@@ -111,10 +111,6 @@
 Before you begin, ensure you have the following installed:
 
 - **Node.js**: v18.0.0 or higher ([Download](https://nodejs.org/))
-- **pnpm**: v8.0.0 or higher (Package manager)
-  ```bash
-  npm install -g pnpm
-  ```
 - **Git**: For version control ([Download](https://git-scm.com/))
 
 ### Installation
@@ -122,14 +118,14 @@ Before you begin, ensure you have the following installed:
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/clara.git
-   cd clara
+   git clone https://github.com/RealCharlesWallace/kdp-puzzle-generator.git
+   cd kdp-puzzle-generator
    ```
 
 2. **Install dependencies**
 
    ```bash
-   pnpm install
+   npm install
    ```
 
 3. **Set up environment variables**
@@ -144,7 +140,7 @@ Before you begin, ensure you have the following installed:
 
    ```env
    # App Configuration
-   VITE_APP_NAME=Clara
+   VITE_APP_NAME=Hello Word Puzzles
    VITE_APP_URL=http://localhost:5173
 
    # Analytics (optional for local development)
@@ -166,7 +162,7 @@ Before you begin, ensure you have the following installed:
 4. **Verify installation**
 
    ```bash
-   pnpm run dev
+   npm run dev
    ```
 
    Open [http://localhost:5173](http://localhost:5173) in your browser. You should see the Clara homepage.
@@ -187,17 +183,17 @@ The application will be available at `http://localhost:5173` with hot module rep
 
 | Command | Description |
 |---------|-------------|
-| `pnpm dev` | Start development server with HMR |
-| `pnpm build` | Build for production |
-| `pnpm preview` | Preview production build locally |
-| `pnpm lint` | Run ESLint |
-| `pnpm lint:fix` | Run ESLint and auto-fix issues |
-| `pnpm format` | Format code with Prettier |
-| `pnpm type-check` | Run TypeScript type checking |
-| `pnpm test` | Run unit tests |
-| `pnpm test:watch` | Run tests in watch mode |
-| `pnpm test:e2e` | Run end-to-end tests |
-| `pnpm test:coverage` | Generate test coverage report |
+| `npm run dev` | Start development server with HMR |
+| `npm run build` | Build for production |
+| `npm run preview` | Preview production build locally |
+| `npm run lint` | Run ESLint |
+| `npm run lint:fix` | Run ESLint and auto-fix issues |
+| `npm run format` | Format code with Prettier |
+| `npm run type-check` | Run TypeScript type checking |
+| `npm test` | Run unit tests |
+| `npm run test:watch` | Run tests in watch mode |
+| `npm run test:e2e` | Run end-to-end tests |
+| `npm run test:coverage` | Generate test coverage report |
 
 #### Development Workflow
 
@@ -208,14 +204,14 @@ The application will be available at `http://localhost:5173` with hot module rep
 
 2. **Make changes** and test locally
    ```bash
-   pnpm dev
+   npm run dev
    ```
 
 3. **Run tests and linting**
    ```bash
-   pnpm test
-   pnpm lint
-   pnpm type-check
+   npm test
+   npm run lint
+   npm run type-check
    ```
 
 4. **Commit changes** (follows conventional commits)
@@ -236,7 +232,7 @@ The application will be available at `http://localhost:5173` with hot module rep
 #### Production Build
 
 ```bash
-pnpm build
+npm run build
 ```
 
 This will:
@@ -463,9 +459,9 @@ This generates TypeDoc documentation from code comments and outputs to `docs/api
 Run unit tests with Vitest:
 
 ```bash
-pnpm test              # Run once
-pnpm test:watch        # Watch mode
-pnpm test:coverage     # With coverage report
+npm test              # Run once
+npm run test:watch    # Watch mode
+npm run test:coverage # With coverage report
 ```
 
 **Coverage Goals**:
@@ -476,7 +472,7 @@ pnpm test:coverage     # With coverage report
 ### Integration Tests
 
 ```bash
-pnpm test:integration
+npm run test:integration
 ```
 
 Tests interactions between modules (e.g., puzzle generation → PDF export).
@@ -486,8 +482,8 @@ Tests interactions between modules (e.g., puzzle generation → PDF export).
 Run E2E tests with Playwright:
 
 ```bash
-pnpm test:e2e          # Headless mode
-pnpm test:e2e:ui       # With UI
+npm run test:e2e       # Headless mode
+npm run test:e2e:ui    # With UI
 ```
 
 **Key E2E Flows**:
@@ -516,7 +512,7 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for deta
 1. **Fork** the repository
 2. **Clone** your fork
    ```bash
-   git clone https://github.com/YOUR-USERNAME/clara.git
+   git clone https://github.com/YOUR-USERNAME/kdp-puzzle-generator.git
    ```
 3. **Create a branch**
    ```bash
@@ -580,16 +576,9 @@ Puzzles generated with Clara include a commercial license. You are free to:
 
 ## Contact
 
-- **Website**: [https://clara-puzzles.com](https://clara-puzzles.com)
-- **Email**: support@clara-puzzles.com
-- **GitHub Issues**: [https://github.com/yourusername/clara/issues](https://github.com/yourusername/clara/issues)
-- **Twitter**: [@ClaraPuzzles](https://twitter.com/ClaraPuzzles)
-
-### Support
-
-- **Documentation**: [https://docs.clara-puzzles.com](https://docs.clara-puzzles.com)
-- **FAQ**: [docs/user-guide/faq.md](docs/user-guide/faq.md)
-- **Community Forum**: [https://community.clara-puzzles.com](https://community.clara-puzzles.com)
+- **Website**: [https://realcharleswallace.github.io/kdp-puzzle-generator/](https://realcharleswallace.github.io/kdp-puzzle-generator/)
+- **GitHub Issues**: [https://github.com/RealCharlesWallace/kdp-puzzle-generator/issues](https://github.com/RealCharlesWallace/kdp-puzzle-generator/issues)
+- **Email**: hello@hellowordpuzzles.com (placeholder)
 
 ---
 
