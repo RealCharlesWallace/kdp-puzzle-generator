@@ -68,7 +68,7 @@ export class PuzzlePDFGenerator {
     };
 
     // Background color
-    const bgRgb = this.hexToRgb(theme.colors.gridBackground);
+    const bgRgb = this.hexToRgb(theme.colors.background);
     doc.setFillColor(bgRgb[0], bgRgb[1], bgRgb[2]);
     doc.rect(0, 0, pageWidth, pageHeight, 'F');
 
@@ -80,20 +80,22 @@ export class PuzzlePDFGenerator {
     doc.setTextColor(titleRgb[0], titleRgb[1], titleRgb[2]);
     doc.text(title, pageWidth / 2, margin.top + 0.3, { align: 'center' });
 
-    // Calculate grid dimensions
+    // Calculate grid dimensions with padding to keep word list clear (units are inches)
     const availableWidth = pageWidth - margin.left - margin.right;
-    const availableHeight = pageHeight - margin.top - margin.bottom - 1.5;
-    const gridSize = Math.min(availableWidth, availableHeight * 0.7);
-    const cellSize = gridSize / puzzle.grid.size;
-    const letterScale = theme.style.gridLetterSize / 100;
-    const gridLineWidth = Math.max(0.5, theme.style.gridBorderWidth);
+    const availableHeight = pageHeight - margin.top - margin.bottom - 2; // leave room for words
+    const maxGridSize = Math.min(availableWidth, availableHeight);
+    const cellSizeIn = Math.min(Math.max(maxGridSize / puzzle.grid.size, 0.18), 0.45); // clamp cell size in inches
+    const cellSizePt = cellSizeIn * 72; // convert to points for font sizing
+    const gridSize = cellSizeIn * puzzle.grid.size;
+    const letterScale = Math.max(0.5, Math.min(theme.style.gridLetterSize / 100, 0.8));
+    const gridLineWidth = Math.max(0.01, Math.min(0.05, cellSizeIn * 0.08)); // inches
 
     // Center the grid
     const gridX = (pageWidth - gridSize) / 2;
     const gridY = margin.top + 0.8;
 
     // Draw grid
-    doc.setFontSize(cellSize * letterScale);
+    doc.setFontSize(cellSizePt * letterScale);
     doc.setFont(theme.fonts.grid, 'normal');
 
     const borderRgb = this.hexToRgb(theme.colors.gridBorder);
@@ -101,6 +103,8 @@ export class PuzzlePDFGenerator {
     doc.setLineWidth(gridLineWidth);
 
     const letterRgb = this.hexToRgb(theme.colors.letterColor);
+    const cellBg = this.hexToRgb(theme.colors.cellBackground);
+    const cellBgAlt = this.hexToRgb(theme.colors.cellBackgroundAlt);
 
     for (let row = 0; row < puzzle.grid.size; row++) {
       for (let col = 0; col < puzzle.grid.size; col++) {
@@ -109,16 +113,22 @@ export class PuzzlePDFGenerator {
           continue;
         }
 
-        const x = gridX + col * cellSize;
-        const y = gridY + row * cellSize;
+        const x = gridX + col * cellSizeIn;
+        const y = gridY + row * cellSizeIn;
+
+        // Cell fill (alternating)
+        const isAlt = (row + col) % 2 === 0;
+        const fill = theme.style.useAlternatingCells ? (isAlt ? cellBg : cellBgAlt) : cellBg;
+        doc.setFillColor(fill[0], fill[1], fill[2]);
+        doc.rect(x, y, cellSizeIn, cellSizeIn, 'FD');
 
         // Draw cell border
-        doc.rect(x, y, cellSize, cellSize);
+        doc.rect(x, y, cellSizeIn, cellSizeIn);
 
         // Draw letter
         if (cell.letter) {
           doc.setTextColor(letterRgb[0], letterRgb[1], letterRgb[2]);
-          doc.text(cell.letter, x + cellSize / 2, y + cellSize / 2 + cellSize * 0.15, {
+          doc.text(cell.letter, x + cellSizeIn / 2, y + cellSizeIn / 2 + cellSizeIn * 0.02, {
             align: 'center',
           });
         }
@@ -126,7 +136,7 @@ export class PuzzlePDFGenerator {
     }
 
     // Word list
-    const wordListY = gridY + gridSize + 0.3;
+    const wordListY = gridY + gridSize + 0.4;
     doc.setFontSize(theme.style.wordListSize);
     doc.setFont(theme.fonts.wordList, 'bold');
     const wordListRgb = this.hexToRgb(theme.colors.wordListColor);
@@ -188,17 +198,18 @@ export class PuzzlePDFGenerator {
     const availableWidth = pageWidth - margin.left - margin.right;
     const availableHeight = pageHeight - margin.top - margin.bottom - 1;
     const gridSize = Math.min(availableWidth, availableHeight);
-    const cellSize = gridSize / puzzle.grid.size;
+    const cellSizeIn = gridSize / puzzle.grid.size;
+    const cellSizePt = cellSizeIn * 72;
 
     // Center the grid
     const gridX = (pageWidth - gridSize) / 2;
     const gridY = margin.top + 0.8;
 
     // Draw grid with highlighted words
-    const letterScale = theme.style.gridLetterSize / 100;
-    const lineWidth = Math.max(0.5, theme.style.gridBorderWidth);
+    const letterScale = Math.max(0.5, Math.min(theme.style.gridLetterSize / 100, 0.8));
+    const lineWidth = Math.max(0.01, Math.min(0.05, cellSizeIn * 0.08));
 
-    doc.setFontSize(cellSize * letterScale);
+    doc.setFontSize(cellSizePt * letterScale);
     doc.setFont(theme.fonts.grid, 'normal');
 
     const borderRgb = this.hexToRgb(theme.colors.gridBorder);
@@ -207,6 +218,8 @@ export class PuzzlePDFGenerator {
 
     const highlightRgb = this.hexToRgb(theme.colors.answerHighlight);
     const letterRgb = this.hexToRgb(theme.colors.letterColor);
+    const cellBg = this.hexToRgb(theme.colors.cellBackground);
+    const cellBgAlt = this.hexToRgb(theme.colors.cellBackgroundAlt);
 
     // First pass: draw all cells
     for (let row = 0; row < puzzle.grid.size; row++) {
@@ -216,21 +229,24 @@ export class PuzzlePDFGenerator {
           continue;
         }
 
-        const x = gridX + col * cellSize;
-        const y = gridY + row * cellSize;
+        const x = gridX + col * cellSizeIn;
+        const y = gridY + row * cellSizeIn;
 
         // Highlight cells that are part of words
         if (cell.isPartOfWord) {
           doc.setFillColor(highlightRgb[0], highlightRgb[1], highlightRgb[2]);
-          doc.rect(x, y, cellSize, cellSize, 'FD');
+          doc.rect(x, y, cellSizeIn, cellSizeIn, 'FD');
         } else {
-          doc.rect(x, y, cellSize, cellSize);
+          const isAlt = (row + col) % 2 === 0;
+          const fill = theme.style.useAlternatingCells ? (isAlt ? cellBg : cellBgAlt) : cellBg;
+          doc.setFillColor(fill[0], fill[1], fill[2]);
+          doc.rect(x, y, cellSizeIn, cellSizeIn, 'FD');
         }
 
         // Draw letter
         if (cell.letter) {
           doc.setTextColor(letterRgb[0], letterRgb[1], letterRgb[2]);
-          doc.text(cell.letter, x + cellSize / 2, y + cellSize / 2 + cellSize * 0.15, {
+          doc.text(cell.letter, x + cellSizeIn / 2, y + cellSizeIn / 2 + cellSizeIn * 0.02, {
             align: 'center',
           });
         }
@@ -240,7 +256,7 @@ export class PuzzlePDFGenerator {
     // Draw lines through found words
     const lineRgb = this.hexToRgb(theme.colors.answerLine);
     doc.setDrawColor(lineRgb[0], lineRgb[1], lineRgb[2]);
-    doc.setLineWidth(cellSize * 0.3);
+    doc.setLineWidth(Math.max(0.01, cellSizeIn * 0.3));
     doc.setLineCap('round');
 
     puzzle.placedWords.forEach((word) => {
