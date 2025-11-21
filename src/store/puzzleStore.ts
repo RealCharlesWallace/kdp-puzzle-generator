@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import type { Puzzle, PuzzleConfig, DifficultyLevel, ShapeType, Direction } from '@/types/puzzle';
 import { WordSearchGenerator } from '@/core/algorithm/WordSearchGenerator';
+import { GridBuilder } from '@/core/algorithm/GridBuilder';
 import { PuzzlePDFGenerator } from '@/core/pdf/PuzzlePDFGenerator';
 
 /**
@@ -143,11 +144,32 @@ export const usePuzzleStore = create<PuzzleState>((set, get) => ({
   },
 
   generatePuzzle: async () => {
-    const { words, config } = get();
+    const { words, config, title } = get();
 
     // Validation
     if (words.length < 5) {
       set({ error: 'Please enter at least 5 words' });
+      return;
+    }
+
+    const totalLetters = words.reduce((sum, w) => sum + w.replace(/\s+/g, '').length, 0);
+    const availableCells = GridBuilder.getAvailableCellCount(config.gridSize, config.shape);
+
+    if (totalLetters > availableCells) {
+      let suggestedSize: number | null = null;
+      for (let size = config.gridSize + 1; size <= 25; size++) {
+        if (GridBuilder.getAvailableCellCount(size, config.shape) >= totalLetters) {
+          suggestedSize = size;
+          break;
+        }
+      }
+
+      const needsReduction = suggestedSize === null;
+      const message = needsReduction
+        ? 'Your word list is too large for the maximum grid size (25). Reduce word count or word lengths.'
+        : `Your word list needs at least a ${suggestedSize}×${suggestedSize} grid. Increase grid size or reduce words.`;
+
+      set({ error: message });
       return;
     }
 
@@ -160,6 +182,7 @@ export const usePuzzleStore = create<PuzzleState>((set, get) => ({
       const result = WordSearchGenerator.generate(config, words);
 
       if (result.success && result.puzzle) {
+        result.puzzle.title = title || 'Word Search Puzzle';
         set({
           currentPuzzle: result.puzzle,
           isGenerating: false,
@@ -195,7 +218,7 @@ export const usePuzzleStore = create<PuzzleState>((set, get) => ({
   },
 
   exportPDF: (includeAnswerKey = true) => {
-    const { currentPuzzle, pdfTheme } = get();
+    const { currentPuzzle, pdfTheme, title } = get();
 
     if (!currentPuzzle) {
       set({ error: 'No puzzle to export. Please generate a puzzle first.' });
@@ -206,7 +229,7 @@ export const usePuzzleStore = create<PuzzleState>((set, get) => ({
       PuzzlePDFGenerator.download(currentPuzzle, {
         pageSize: '8.5x11',
         includeAnswerKey,
-        title: currentPuzzle.title,
+        title: title || currentPuzzle.title || 'Word Search Puzzle',
         themeId: pdfTheme,
       });
     } catch (error) {

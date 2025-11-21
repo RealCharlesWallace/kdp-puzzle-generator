@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { usePuzzleStore } from '@/store/puzzleStore';
 import { PuzzleCanvas } from '@/components/puzzle/PuzzleCanvas';
 import { DocsModal } from '@/components/docs/DocsModal';
 import { DifficultyLevel, ShapeType } from '@/types/puzzle';
 import { getAllThemes, getTheme } from '@/config/themes';
+import { GridBuilder } from '@/core/algorithm/GridBuilder';
 
 const HomePage: React.FC = () => {
   const {
     currentPuzzle,
     words,
     config,
+    title,
     isGenerating,
     error,
     pdfTheme,
     setWords,
+    setTitle,
     setGridSize,
     setShape,
     setDifficulty,
@@ -23,8 +27,30 @@ const HomePage: React.FC = () => {
   } = usePuzzleStore();
 
   const [inputWords, setInputWords] = useState(words.join('\n'));
+  const [titleInput, setTitleInput] = useState(title);
   const [showSolution, setShowSolution] = useState(false);
   const [showDocs, setShowDocs] = useState(false);
+  const maxTitleLength = 60;
+
+  const capacityInfo = useMemo(() => {
+    const totalLetters = words.reduce((sum, w) => sum + w.replace(/\s+/g, '').length, 0);
+    const availableCells = GridBuilder.getAvailableCellCount(config.gridSize, config.shape);
+    let suggestedSize: number | null = null;
+    for (let size = config.gridSize; size <= 25; size++) {
+      if (GridBuilder.getAvailableCellCount(size, config.shape) >= totalLetters) {
+        suggestedSize = size;
+        break;
+      }
+    }
+    return {
+      totalLetters,
+      availableCells,
+      fits: totalLetters <= availableCells,
+      suggestedSize,
+    };
+  }, [words, config.gridSize, config.shape]);
+
+  const generationBlocked = !capacityInfo.fits || words.length < 5 || isGenerating;
 
   const handleWordsChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
     setInputWords(e.target.value);
@@ -33,50 +59,77 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 font-sans text-slate-900">
-      <header className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 px-6 py-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
+      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200/60 bg-white/80 px-6 py-4 shadow-sm backdrop-blur-md">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-md">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 text-xl font-bold text-white shadow-md">
             C
           </div>
-          <h1 className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700">Clara</h1>
+          <h1 className="bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-xl font-bold tracking-tight text-transparent">
+            Clara
+          </h1>
         </div>
         <div className="flex items-center gap-4">
           <button
             onClick={() => setShowDocs(true)}
-            className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
+            className="text-sm font-medium text-slate-600 transition-colors hover:text-slate-900"
           >
             Documentation
           </button>
           <button
             onClick={() => exportPDF(true)}
             disabled={!currentPuzzle}
-            className="bg-slate-900 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-slate-800 transition-all hover:shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-slate-800 hover:shadow-lg active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Export PDF
           </button>
         </div>
       </header>
 
-      <main className="container mx-auto px-6 py-8 flex gap-8 h-[calc(100vh-73px)]">
+      <main className="container mx-auto flex h-[calc(100vh-73px)] gap-8 px-6 py-8">
         {/* Sidebar Controls */}
-        <aside className="w-80 flex-shrink-0 flex flex-col gap-6 overflow-y-auto pb-8 bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/50 shadow-sm">
+        <aside className="flex w-80 flex-shrink-0 flex-col gap-6 rounded-xl border border-white/50 bg-white/60 p-6 pb-8 shadow-sm backdrop-blur-sm">
           <div className="space-y-4">
-            <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+            <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400">
               Configuration
             </h2>
 
             <div className="space-y-2">
+              <label className="text-sm font-medium text-slate-700" htmlFor="puzzle-title">
+                Puzzle Title
+              </label>
+              <div className="space-y-1">
+                <input
+                  id="puzzle-title"
+                  type="text"
+                  value={titleInput}
+                  maxLength={maxTitleLength}
+                  onChange={(e) => {
+                    setTitleInput(e.target.value);
+                    setTitle(e.target.value);
+                  }}
+                  placeholder="e.g. Summer Vacation Search"
+                  className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                />
+                <div className="text-right text-xs text-slate-500">
+                  {titleInput.length}/{maxTitleLength}
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-2">
               <label className="text-sm font-medium text-slate-700">Grid Size</label>
-              <div className="flex items-center gap-3 bg-white p-2 rounded-lg border border-slate-200 shadow-sm">
+              <div className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white p-2 shadow-sm">
                 <input
                   type="range"
                   min="10"
                   max="25"
                   value={config.gridSize}
                   onChange={(e) => setGridSize(parseInt(e.target.value))}
-                  className="flex-1 accent-blue-600 cursor-pointer"
+                  className="flex-1 cursor-pointer accent-blue-600"
                 />
-                <span className="text-sm font-mono font-semibold text-blue-600 w-6 text-center">{config.gridSize}</span>
+                <span className="w-6 text-center font-mono text-sm font-semibold text-blue-600">
+                  {config.gridSize}
+                </span>
               </div>
             </div>
 
@@ -86,14 +139,14 @@ const HomePage: React.FC = () => {
                 <select
                   value={config.difficulty}
                   onChange={(e) => setDifficulty(e.target.value as DifficultyLevel)}
-                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 shadow-sm appearance-none cursor-pointer"
+                  className="w-full cursor-pointer appearance-none rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                 >
                   <option value="easy">Easy</option>
                   <option value="medium">Medium</option>
                   <option value="hard">Hard</option>
                   <option value="expert">Expert</option>
                 </select>
-                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
                   ▼
                 </div>
               </div>
@@ -105,12 +158,12 @@ const HomePage: React.FC = () => {
                 <select
                   value={config.shape}
                   onChange={(e) => setShape(e.target.value as ShapeType)}
-                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 shadow-sm appearance-none cursor-pointer"
+                  className="w-full cursor-pointer appearance-none rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                 >
                   <option value="rectangle">Rectangle</option>
                   <option value="circle">Circle</option>
                 </select>
-                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
                   ▼
                 </div>
               </div>
@@ -122,7 +175,7 @@ const HomePage: React.FC = () => {
                 <select
                   value={pdfTheme}
                   onChange={(e) => setPdfTheme(e.target.value)}
-                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 shadow-sm appearance-none cursor-pointer"
+                  className="w-full cursor-pointer appearance-none rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                 >
                   {getAllThemes().map((theme) => (
                     <option key={theme.id} value={theme.id}>
@@ -130,22 +183,22 @@ const HomePage: React.FC = () => {
                     </option>
                   ))}
                 </select>
-                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
                   ▼
                 </div>
               </div>
-              <p className="text-xs text-slate-500 italic">
+              <p className="text-xs italic text-slate-500">
                 Choose a color theme for your exported PDF
               </p>
             </div>
           </div>
 
-          <div className="space-y-4 flex-1 flex flex-col">
+          <div className="flex flex-1 flex-col space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400">
                 Word List
               </h2>
-              <span className="text-xs font-medium px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full">
+              <span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700">
                 {words.length}
               </span>
             </div>
@@ -153,20 +206,27 @@ const HomePage: React.FC = () => {
               value={inputWords}
               onChange={handleWordsChange}
               placeholder="Enter words (one per line)"
-              className="w-full flex-1 px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none shadow-sm"
+              className="w-full flex-1 resize-none rounded-lg border border-slate-200 bg-white px-3 py-2 font-mono text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
             />
             {error && (
-              <div className="text-xs text-red-600 bg-red-50 p-3 rounded-lg border border-red-100 flex items-start gap-2">
+              <div className="flex items-start gap-2 rounded-lg border border-red-100 bg-red-50 p-3 text-xs text-red-600">
                 <span>⚠️</span>
                 {error}
+              </div>
+            )}
+            {!capacityInfo.fits && (
+              <div className="rounded-lg border border-amber-100 bg-amber-50 p-3 text-xs text-amber-700">
+                {capacityInfo.suggestedSize
+                  ? `Your words need at least a ${capacityInfo.suggestedSize}×${capacityInfo.suggestedSize} grid. Increase the grid size or shorten the list.`
+                  : 'Your word list is too large for the maximum grid size (25). Reduce word count or word lengths.'}
               </div>
             )}
             <button
               onClick={() => {
                 void generatePuzzle();
               }}
-              disabled={isGenerating || words.length < 5}
-              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg active:scale-[0.98]"
+              disabled={generationBlocked}
+              className="w-full rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 font-semibold text-white shadow-md transition-all hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isGenerating ? 'Generating...' : 'Generate Puzzle'}
             </button>
@@ -174,11 +234,11 @@ const HomePage: React.FC = () => {
         </aside>
 
         {/* Main Content */}
-        <section className="flex-1 min-h-0 flex flex-col gap-6 bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/50 shadow-sm overflow-hidden relative">
-          <div className="flex items-center justify-between z-10">
+        <section className="relative flex min-h-0 flex-1 flex-col gap-6 overflow-hidden rounded-xl border border-white/50 bg-white/60 p-6 shadow-sm backdrop-blur-sm">
+          <div className="z-10 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-slate-800">Preview</h2>
             <div className="flex items-center gap-2">
-              <label className="flex items-center gap-2 text-sm font-medium text-slate-600 cursor-pointer select-none hover:text-slate-900 transition-colors">
+              <label className="flex cursor-pointer select-none items-center gap-2 text-sm font-medium text-slate-600 transition-colors hover:text-slate-900">
                 <input
                   type="checkbox"
                   checked={showSolution}
@@ -190,14 +250,18 @@ const HomePage: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex-1 min-h-0 flex items-center justify-center overflow-hidden relative">
+          <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden">
             {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
-              style={{ backgroundImage: 'radial-gradient(#4f46e5 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
-            </div>
+            <div
+              className="pointer-events-none absolute inset-0 opacity-[0.03]"
+              style={{
+                backgroundImage: 'radial-gradient(#4f46e5 1px, transparent 1px)',
+                backgroundSize: '20px 20px',
+              }}
+            ></div>
 
             {currentPuzzle ? (
-              <div className="relative z-10 h-full w-full max-h-full max-w-full transform transition-all duration-500 ease-out animate-in fade-in zoom-in-95">
+              <div className="animate-in fade-in zoom-in-95 relative z-10 h-full max-h-full w-full max-w-full transform transition-all duration-500 ease-out">
                 <PuzzleCanvas
                   grid={currentPuzzle.grid}
                   placedWords={currentPuzzle.placedWords}
@@ -206,10 +270,10 @@ const HomePage: React.FC = () => {
                 />
               </div>
             ) : (
-              <div className="text-center text-slate-400 z-10">
-                <div className="mb-6 text-7xl opacity-50 animate-bounce-slow">🧩</div>
-                <p className="text-xl font-semibold text-slate-600 mb-2">Ready to create?</p>
-                <p className="text-sm text-slate-500 max-w-xs mx-auto">
+              <div className="z-10 text-center text-slate-400">
+                <div className="animate-bounce-slow mb-6 text-7xl opacity-50">🧩</div>
+                <p className="mb-2 text-xl font-semibold text-slate-600">Ready to create?</p>
+                <p className="mx-auto max-w-xs text-sm text-slate-500">
                   Add your words in the sidebar and click Generate to create your first puzzle.
                 </p>
               </div>
