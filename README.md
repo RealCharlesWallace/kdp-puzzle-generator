@@ -1,4 +1,4 @@
-# Clara - KDP Word Search Puzzle Generator
+# Hello Word Puzzles - KDP Word Search Puzzle Generator
 
 > **Tagline**: Create professional word search puzzles for Amazon KDP in seconds, not hours.
 
@@ -29,9 +29,9 @@
 
 ## Overview
 
-**Clara** is a modern, web-based word search puzzle generator specifically designed for Amazon KDP (Kindle Direct Publishing) creators and low-content book publishers. Generate print-ready, professional-quality word search puzzles with custom shapes, multiple difficulty levels, and full KDP compliance in under 60 seconds.
+**Hello Word Puzzles** is a modern, web-based word search puzzle generator for Amazon KDP (Kindle Direct Publishing) creators and low-content book publishers. Generate print-ready puzzles with custom shapes, multiple difficulty levels, and full KDP compliance in under 60 seconds.
 
-### Why Clara?
+### Why Hello Word Puzzles?
 
 - **KDP-Optimized**: PDFs meet Amazon KDP print specifications out of the box
 - **Fast**: Generate puzzles in <2 seconds, export PDFs in <5 seconds
@@ -52,23 +52,15 @@
 
 ## Features
 
-### MVP (Current Phase)
-
-- ✅ **Custom Word Lists**: Enter 5-50 words manually or import from CSV
-- ✅ **Multiple Grid Sizes**: 10×10, 12×12, 15×15, 20×20
-- ✅ **Shaped Puzzles**: Rectangle and Circle shapes
+- ✅ **Custom Word Lists**: Enter manually or import from CSV/TSV; per-line validation
+- ✅ **Grid Sizes**: 10–25
+- ✅ **Shapes**: Rectangle, Circle, Star, Diamond, Triangle, Heart
 - ✅ **Difficulty Levels**: Easy, Medium, Hard, Expert
-- ✅ **Real-Time Preview**: See your puzzle instantly as you generate
-- ✅ **Print-Ready PDF Export**: KDP-compliant PDF with answer key
-- ✅ **Commercial License**: Use in published books with no restrictions
-- ✅ **Mobile Responsive**: Works on desktop, tablet, and mobile
-
-### Phase 2 (In Progress)
-
-- 🔄 **Enhanced Shapes**: Heart, Star, Diamond, Triangle, + seasonal shapes
-- 🔄 **Batch Generation**: Create up to 50 puzzles at once
-- 🔄 **Themed Word Lists**: 20+ pre-made word list categories
-- 🔄 **Custom Styling**: Fonts, colors, grid line thickness
+- ✅ **Real-Time Preview**: Live canvas with optional solution overlay
+- ✅ **Print-Ready PDF Export**: KDP-compliant PDFs with answer key
+- ✅ **Themes**: Includes Imagination-inspired palettes
+- ✅ **Mobile Friendly**: Responsive layout with larger preview on mobile
+- ✅ **Book Promo**: Footer card with cover and author avatar
 
 ### Phase 3 (Planned)
 

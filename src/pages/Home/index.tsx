@@ -99,7 +99,7 @@ const HomePage: React.FC = () => {
         <div className="flex items-center gap-2">
           <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-amber-100 bg-gradient-to-br from-pink-200 to-amber-200 shadow">
             <img
-              src="/assets/images/clara_wallace_photo.jpg"
+              src={`${import.meta.env.BASE_URL}assets/images/clara_wallace_photo.jpg`}
               alt="Clara Wallace"
               className="h-full w-full object-cover"
             />
@@ -358,7 +358,7 @@ const HomePage: React.FC = () => {
               <div className="flex gap-4">
                 <div className="hidden h-32 w-24 shrink-0 overflow-hidden rounded-xl border border-amber-100 shadow-sm sm:block">
                   <img
-                    src="/book-cover.jpg"
+                    src={`${import.meta.env.BASE_URL}book-cover.jpg`}
                     alt="I Like to Cut & Paste Stuff book cover"
                     className="h-full w-full object-cover"
                   />
@@ -392,7 +392,7 @@ const HomePage: React.FC = () => {
                 </div>
                 <div className="h-32 w-24 shrink-0 overflow-hidden rounded-xl border border-amber-100 shadow-sm sm:hidden">
                   <img
-                    src="/book-cover.jpg"
+                    src={`${import.meta.env.BASE_URL}book-cover.jpg`}
                     alt="I Like to Cut & Paste Stuff book cover"
                     className="h-full w-full object-cover"
                   />
