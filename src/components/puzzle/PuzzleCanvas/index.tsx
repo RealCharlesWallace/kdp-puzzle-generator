@@ -185,7 +185,10 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
         if (cell.letter) {
           ctx.fillStyle = theme.colors.letterColor;
           ctx.font = `bold ${fontSize}px Inter, -apple-system, BlinkMacSystemFont, sans-serif`;
-          ctx.fillText(cell.letter, x + cellSize / 2, y + cellSize / 2);
+          ctx.textBaseline = 'middle';
+          const centerX = x + cellSize / 2;
+          const centerY = y + cellSize / 2;
+          ctx.fillText(cell.letter, centerX, centerY);
         }
       });
     });
