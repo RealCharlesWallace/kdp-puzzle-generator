@@ -96,6 +96,14 @@ const HomePage: React.FC = () => {
           >
             Documentation
           </button>
+          <a
+            href="https://www.amazon.com/dp/B0DKG36F8W?ref_=cm_sw_r_cp_ud_dp_08S189X0VN54S6HVCD99&starsLeft=1&skipTwisterOG=1"
+            target="_blank"
+            rel="noreferrer"
+            className="hidden items-center gap-2 rounded-md bg-gradient-to-r from-amber-400 to-amber-500 px-3 py-2 text-sm font-semibold text-amber-900 shadow-sm transition hover:shadow-md sm:flex"
+          >
+            Kids Book
+          </a>
           <button
             onClick={() => exportPDF(true)}
             disabled={!currentPuzzle}
@@ -115,6 +123,30 @@ const HomePage: React.FC = () => {
         )}
         {/* Sidebar Controls */}
         <aside className="flex w-full flex-shrink-0 flex-col gap-6 rounded-xl border border-white/50 bg-white/60 p-6 pb-8 shadow-sm backdrop-blur-sm lg:w-80">
+          <div className="rounded-lg border border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 p-4 shadow-sm">
+            <div className="flex items-start gap-3">
+              <div className="rounded-full bg-amber-100 px-2 py-1 text-xs font-semibold text-amber-700">
+                Featured
+              </div>
+              <div className="space-y-2">
+                <div className="text-sm font-semibold text-amber-800">
+                  Hello Imagination · Creative Kids Word Searches
+                </div>
+                <p className="text-xs text-amber-700">
+                  Explore the companion book on Amazon with playful puzzles and vibrant themes.
+                </p>
+                <a
+                  href="https://www.amazon.com/dp/B0DKG36F8W?ref_=cm_sw_r_cp_ud_dp_08S189X0VN54S6HVCD99&starsLeft=1&skipTwisterOG=1"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1 rounded-md bg-amber-500 px-3 py-1.5 text-xs font-semibold text-amber-900 shadow-sm transition hover:shadow"
+                >
+                  View on Amazon
+                  <span aria-hidden>↗</span>
+                </a>
+              </div>
+            </div>
+          </div>
           <div className="space-y-4">
             <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400">
               Configuration

@@ -251,6 +251,42 @@ export const PUZZLE_THEMES: Record<string, PuzzleTheme> = {
     },
   },
 
+  imagination: {
+    id: 'imagination',
+    name: 'Imagination Play',
+    description: 'Playful, kid-friendly palette inspired by Hello Imagination',
+    colors: {
+      primary: '#FF6B6B',
+      secondary: '#FFD166',
+      accent: '#06B6D4',
+      background: '#FDF7EC',
+      gridBackground: '#FFFFFF',
+      gridBorder: '#F6C177',
+      cellBackground: '#FFF4E3',
+      cellBackgroundAlt: '#F1FBFF',
+      letterColor: '#0F172A',
+      titleColor: '#FF6B6B',
+      wordListColor: '#2563EB',
+      answerHighlight: '#FEE2E2',
+      answerLine: '#06B6D4',
+    },
+    fonts: {
+      title: 'helvetica',
+      grid: 'helvetica',
+      wordList: 'helvetica',
+    },
+    style: {
+      gridBorderWidth: 1.5,
+      titleSize: 28,
+      gridLetterSize: 56,
+      wordListSize: 12,
+      cellPadding: 3,
+      useAlternatingCells: true,
+      useShadows: true,
+      cornerRadius: 8,
+    },
+  },
+
   minimal: {
     id: 'minimal',
     name: 'Minimal Clean',
