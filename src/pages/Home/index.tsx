@@ -97,11 +97,11 @@ const HomePage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-rose-50 to-sky-50 font-sans text-slate-900">
       <header className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200/60 bg-white/80 px-6 py-4 shadow-sm backdrop-blur-md">
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-pink-500 to-amber-400 text-xl font-bold text-white shadow-md">
-            C
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-amber-400 text-base font-bold text-white shadow-md">
+            HC
           </div>
           <h1 className="bg-gradient-to-r from-slate-900 to-blue-700 bg-clip-text text-xl font-bold tracking-tight text-transparent">
-            Clara
+            Hello Crossword
           </h1>
         </div>
         <div className="flex items-center gap-4">
@@ -379,6 +379,13 @@ const HomePage: React.FC = () => {
                 </div>
               </div>
               <div className="flex items-center gap-4 md:justify-end">
+                <div className="hidden h-14 w-14 shrink-0 overflow-hidden rounded-full border border-amber-100 shadow-sm md:block">
+                  <img
+                    src="/assets/images/clara_wallace_photo.jpg"
+                    alt="Clara Wallace author"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
                 <div className="h-32 w-24 shrink-0 overflow-hidden rounded-xl border border-amber-100 shadow-sm sm:hidden">
                   <img
                     src="/book-cover.jpg"
