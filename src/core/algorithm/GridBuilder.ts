@@ -51,8 +51,9 @@ export class GridBuilder {
         for (let col = 0; col < size; col++) {
           const distance = Math.sqrt(Math.pow(row - center, 2) + Math.pow(col - center, 2));
           if (distance > radius) {
-            if (mask[row]?.[col] !== undefined) {
-              mask[row][col] = false;
+            const rowMask = mask[row];
+            if (rowMask && rowMask[col] !== undefined) {
+              rowMask[col] = false;
             }
           }
         }
@@ -67,8 +68,9 @@ export class GridBuilder {
         for (let col = 0; col < size; col++) {
           const dist = Math.abs(row - center) + Math.abs(col - center);
           if (dist > maxDist) {
-            if (mask[row]?.[col] !== undefined) {
-              mask[row][col] = false;
+            const rowMask = mask[row];
+            if (rowMask && rowMask[col] !== undefined) {
+              rowMask[col] = false;
             }
           }
         }
@@ -84,8 +86,9 @@ export class GridBuilder {
         const end = Math.floor(size / 2) + span;
         for (let col = 0; col < size; col++) {
           if (col < start || col > end) {
-            if (mask[row]?.[col] !== undefined) {
-              mask[row][col] = false;
+            const rowMask = mask[row];
+            if (rowMask && rowMask[col] !== undefined) {
+              rowMask[col] = false;
             }
           }
         }
@@ -104,8 +107,9 @@ export class GridBuilder {
             Math.abs(row - center) <= Math.floor(size * 0.15) ||
             Math.abs(col - center) <= Math.floor(size * 0.15);
           if (!(cross || diag || nearCenter)) {
-            if (mask[row]?.[col] !== undefined) {
-              mask[row][col] = false;
+            const rowMask = mask[row];
+            if (rowMask && rowMask[col] !== undefined) {
+              rowMask[col] = false;
             }
           }
         }
@@ -123,8 +127,9 @@ export class GridBuilder {
           // Classic heart curve: (x^2 + y^2 - 1)^3 - x^2 y^3 <= 0
           const lhs = Math.pow(x * x + y * y - 1, 3) - x * x * Math.pow(y, 3);
           if (lhs > 0) {
-            if (mask[row]?.[col] !== undefined) {
-              mask[row][col] = false;
+            const rowMask = mask[row];
+            if (rowMask && rowMask[col] !== undefined) {
+              rowMask[col] = false;
             }
           }
         }
