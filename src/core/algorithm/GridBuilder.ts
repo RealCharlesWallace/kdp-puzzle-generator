@@ -79,11 +79,11 @@ export class GridBuilder {
     }
 
     if (shape === 'triangle') {
-      // Upright triangle
+      const center = Math.floor((size - 1) / 2);
       for (let row = 0; row < size; row++) {
-        const span = Math.floor(((row / (size - 1)) * (size - 1)) / 2);
-        const start = Math.floor(size / 2) - span;
-        const end = Math.floor(size / 2) + span;
+        const width = Math.max(1, Math.min(size, Math.floor(((row + 1) / size) * size)));
+        const start = center - Math.floor(width / 2);
+        const end = start + width - 1;
         for (let col = 0; col < size; col++) {
           if (col < start || col > end) {
             const rowMask = mask[row];
@@ -97,20 +97,28 @@ export class GridBuilder {
     }
 
     if (shape === 'star') {
-      // Simple 8-point star approximation: combine cross + diagonals
+      // 8-point star approximation: thick cross + diagonals + center
       const center = (size - 1) / 2;
+      const armThickness = Math.max(1, Math.floor(size * 0.1));
+      const coreRadius = Math.max(2, Math.floor(size * 0.15));
+
+      // Start masked out, then open star parts
       for (let row = 0; row < size; row++) {
         for (let col = 0; col < size; col++) {
-          const cross = row === center || col === center;
-          const diag = Math.abs(row - center) === Math.abs(col - center);
-          const nearCenter =
-            Math.abs(row - center) <= Math.floor(size * 0.15) ||
-            Math.abs(col - center) <= Math.floor(size * 0.15);
-          if (!(cross || diag || nearCenter)) {
-            const rowMask = mask[row];
-            if (rowMask && rowMask[col] !== undefined) {
-              rowMask[col] = false;
-            }
+          mask[row][col] = false;
+        }
+      }
+
+      for (let row = 0; row < size; row++) {
+        for (let col = 0; col < size; col++) {
+          const inCross =
+            Math.abs(row - center) <= armThickness || Math.abs(col - center) <= armThickness;
+          const inDiag =
+            Math.abs(row - col) <= armThickness || Math.abs(row + col - (size - 1)) <= armThickness;
+          const dist = Math.sqrt(Math.pow(row - center, 2) + Math.pow(col - center, 2));
+          const inCore = dist <= coreRadius;
+          if (inCross || inDiag || inCore) {
+            mask[row][col] = true;
           }
         }
       }
@@ -118,13 +126,12 @@ export class GridBuilder {
     }
 
     if (shape === 'heart') {
-      // Normalize coordinates to [-1, 1] and use a heart implicit equation
       const norm = (val: number): number => (2 * val) / (size - 1) - 1; // map 0..size-1 to -1..1
       for (let row = 0; row < size; row++) {
         for (let col = 0; col < size; col++) {
-          const x = norm(col);
-          const y = -norm(row); // flip y to orient upwards
-          // Classic heart curve: (x^2 + y^2 - 1)^3 - x^2 y^3 <= 0
+          const x = norm(col) * 1.2;
+          const y = -norm(row) * 1.1; // flip y and stretch
+          // (x^2 + y^2 - 1)^3 - x^2 y^3 <= 0 is inside the heart
           const lhs = Math.pow(x * x + y * y - 1, 3) - x * x * Math.pow(y, 3);
           if (lhs > 0) {
             const rowMask = mask[row];
