@@ -223,6 +223,8 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
 
         // Draw letter
         if (cell.letter) {
+          ctx.shadowColor = 'transparent';
+          ctx.shadowBlur = 0;
           ctx.fillStyle = theme.colors.letterColor;
           ctx.font = `bold ${fontSize}px Inter, -apple-system, BlinkMacSystemFont, sans-serif`;
           ctx.textBaseline = 'middle';
