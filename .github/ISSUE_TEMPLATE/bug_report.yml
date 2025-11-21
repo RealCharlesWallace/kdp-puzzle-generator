@@ -1,0 +1,104 @@
+name: Bug Report
+description: File a bug report to help us improve Clara
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out the information below to help us resolve the issue.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: "Example: When I generate a 20x20 circle puzzle, the right side is cut off in the PDF export."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: Step-by-step instructions to reproduce the issue
+      placeholder: |
+        1. Go to generator page
+        2. Enter 20 words
+        3. Select 20x20 grid size
+        4. Select circle shape
+        5. Click 'Generate Puzzle'
+        6. Click 'Download PDF'
+        7. Open PDF and observe the issue
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+      placeholder: "The entire circle puzzle should be visible within the PDF page boundaries."
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+      placeholder: "The right portion of the circle is cut off and not visible in the PDF."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: How severe is this bug?
+      options:
+        - Critical (app crashes, data loss)
+        - High (major feature broken)
+        - Medium (feature partially broken)
+        - Low (minor issue, workaround available)
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser
+      description: Which browser are you using?
+      placeholder: "Chrome 120.0, Firefox 121.0, Safari 17.1"
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating System
+      description: Which OS are you using?
+      placeholder: "macOS 14.1, Windows 11, Ubuntu 22.04"
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context, screenshots, or error messages
+      placeholder: "Attach screenshots or error logs here"
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      options:
+        - label: I have searched existing issues to ensure this bug hasn't been reported
+          required: true
+        - label: I have provided steps to reproduce
+          required: true
+        - label: I have included browser and OS information
+          required: true
