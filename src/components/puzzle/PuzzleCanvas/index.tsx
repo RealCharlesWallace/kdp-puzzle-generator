@@ -120,6 +120,46 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
+    // Draw solution lines under letters for clarity
+    if (showSolution) {
+      ctx.save();
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.shadowColor = 'transparent';
+      ctx.shadowBlur = 0;
+
+      placedWords.forEach((word) => {
+        if (word.positions.length === 0) {
+          return;
+        }
+
+        const startPos = word.positions[0];
+        const endPos = word.positions[word.positions.length - 1];
+
+        if (!startPos || !endPos) {
+          return;
+        }
+
+        const startX = padding + startPos.col * cellSize + cellSize / 2;
+        const startY = padding + startPos.row * cellSize + cellSize / 2;
+        const endX = padding + endPos.col * cellSize + cellSize / 2;
+        const endY = padding + endPos.row * cellSize + cellSize / 2;
+
+        const gradient = ctx.createLinearGradient(startX, startY, endX, endY);
+        gradient.addColorStop(0, theme.colors.answerLine + 'AA');
+        gradient.addColorStop(1, theme.colors.answerLine + '66');
+
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = Math.max(2, cellSize * 0.18);
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(endX, endY);
+        ctx.stroke();
+      });
+
+      ctx.restore();
+    }
+
     grid.cells.forEach((row, rowIndex) => {
       row.forEach((cell, colIndex) => {
         if (cell.masked) {
@@ -194,47 +234,7 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
     });
 
     // Draw solution lines if enabled
-    if (showSolution) {
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-
-      placedWords.forEach((word) => {
-        if (word.positions.length === 0) {
-          return;
-        }
-
-        const startPos = word.positions[0];
-        const endPos = word.positions[word.positions.length - 1];
-
-        if (!startPos || !endPos) {
-          return;
-        }
-
-        const startX = padding + startPos.col * cellSize + cellSize / 2;
-        const startY = padding + startPos.row * cellSize + cellSize / 2;
-        const endX = padding + endPos.col * cellSize + cellSize / 2;
-        const endY = padding + endPos.row * cellSize + cellSize / 2;
-
-        // Gradient line
-        const gradient = ctx.createLinearGradient(startX, startY, endX, endY);
-        gradient.addColorStop(0, theme.colors.answerLine + 'AA');
-        gradient.addColorStop(1, theme.colors.answerLine + '66');
-
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = Math.max(3, cellSize * 0.25);
-        ctx.shadowColor = theme.colors.answerLine;
-        ctx.shadowBlur = 8;
-
-        ctx.beginPath();
-        ctx.moveTo(startX, startY);
-        ctx.lineTo(endX, endY);
-        ctx.stroke();
-
-        // Reset shadow
-        ctx.shadowColor = 'transparent';
-        ctx.shadowBlur = 0;
-      });
-    }
+    // (Lines are now drawn beneath letters above)
   }, [grid, placedWords, showSolution, theme, dimensions]);
 
   return (
