@@ -31,6 +31,29 @@ export class PuzzlePDFGenerator {
     return doc;
   }
 
+  /** Create separate docs for puzzle and answer key */
+  static createPuzzleAndAnswer(
+    puzzle: Puzzle,
+    options: PDFExportOptions
+  ): { puzzleDoc: jsPDF; answerDoc: jsPDF } {
+    const puzzleDoc = new jsPDF({
+      orientation: 'portrait',
+      unit: 'in',
+      format: this.getPageFormat(options.pageSize),
+    });
+    const theme = getTheme(options.themeId || 'classic');
+    this.addPuzzlePage(puzzleDoc, puzzle, { ...options, includeAnswerKey: false }, theme);
+
+    const answerDoc = new jsPDF({
+      orientation: 'portrait',
+      unit: 'in',
+      format: this.getPageFormat(options.pageSize),
+    });
+    this.addAnswerKeyPage(answerDoc, puzzle, theme);
+
+    return { puzzleDoc, answerDoc };
+  }
+
   private static getPageFormat(size: string): [number, number] {
     const formats: Record<string, [number, number]> = {
       '8.5x11': [8.5, 11],

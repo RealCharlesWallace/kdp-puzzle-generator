@@ -17,6 +17,7 @@ const HomePage: React.FC = () => {
     isGenerating,
     error,
     pdfTheme,
+    exportCopies,
     setWords,
     setTitle,
     setGridSize,
@@ -29,6 +30,7 @@ const HomePage: React.FC = () => {
 
   const [inputWords, setInputWords] = useState(words.join('\n'));
   const [titleInput, setTitleInput] = useState(title);
+  const [copyCount, setCopyCount] = useState(1);
   const [showSolution, setShowSolution] = useState(false);
   const [showDocs, setShowDocs] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -292,13 +294,37 @@ const HomePage: React.FC = () => {
                   : 'Your word list is too large for the maximum grid size (25). Reduce word count or word lengths.'}
               </div>
             )}
-            <button
-              onClick={handleGenerateClick}
-              disabled={generationBlocked}
-              className="w-full rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 font-semibold text-white shadow-md transition-all hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {isGenerating ? 'Generating...' : 'Generate Puzzle'}
-            </button>
+            <div className="space-y-3">
+              <button
+                onClick={handleGenerateClick}
+                disabled={generationBlocked}
+                className="w-full rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 font-semibold text-white shadow-md transition-all hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {isGenerating ? 'Generating...' : 'Generate Puzzle'}
+              </button>
+              <div className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
+                <label className="text-sm font-medium text-slate-700" htmlFor="copy-count">
+                  Copies
+                </label>
+                <input
+                  id="copy-count"
+                  type="number"
+                  min={1}
+                  max={25}
+                  value={copyCount}
+                  onChange={(e) => setCopyCount(Math.max(1, Math.min(25, Number(e.target.value))))}
+                  className="w-20 rounded border border-slate-200 px-2 py-1 text-sm"
+                />
+                <button
+                  onClick={() => {
+                    void exportCopies(copyCount);
+                  }}
+                  className="ml-auto rounded-md bg-slate-900 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:shadow-md"
+                >
+                  Export PDFs
+                </button>
+              </div>
+            </div>
           </div>
         </aside>
 

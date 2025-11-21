@@ -3,6 +3,7 @@ import type { Puzzle, PuzzleConfig, DifficultyLevel, ShapeType, Direction } from
 import { WordSearchGenerator } from '@/core/algorithm/WordSearchGenerator';
 import { GridBuilder } from '@/core/algorithm/GridBuilder';
 import { PuzzlePDFGenerator } from '@/core/pdf/PuzzlePDFGenerator';
+import JSZip from 'jszip';
 
 /**
  * Puzzle store state interface
@@ -36,6 +37,7 @@ interface PuzzleState {
   setError: (error: string | null) => void;
   setPdfTheme: (themeId: string) => void;
   exportPDF: (includeAnswerKey?: boolean) => void;
+  exportCopies: (count: number) => Promise<void>;
 }
 
 /**
@@ -236,6 +238,60 @@ export const usePuzzleStore = create<PuzzleState>((set, get) => ({
       set({
         error: error instanceof Error ? error.message : 'Failed to export PDF',
       });
+    }
+  },
+
+  exportCopies: async (count: number) => {
+    const { config, words, title, pdfTheme } = get();
+
+    if (words.length < 5) {
+      set({ error: 'Please enter at least 5 words before exporting.' });
+      return;
+    }
+
+    const copies = Math.max(1, Math.min(25, Math.floor(count)));
+    const zip = new JSZip();
+
+    for (let i = 1; i <= copies; i++) {
+      const result = WordSearchGenerator.generate(config, words);
+      if (!result.success || !result.puzzle) {
+        set({ error: result.error || 'Failed to generate puzzle' });
+        return;
+      }
+
+      const puzzleTitle = title || `Word Puzzle ${i}`;
+      result.puzzle.title = puzzleTitle;
+
+      const { puzzleDoc, answerDoc } = PuzzlePDFGenerator.createPuzzleAndAnswer(result.puzzle, {
+        pageSize: '8.5x11',
+        includeAnswerKey: true,
+        title: puzzleTitle,
+        themeId: pdfTheme,
+      });
+
+      const puzzleBuffer = puzzleDoc.output('arraybuffer');
+      const answerBuffer = answerDoc.output('arraybuffer');
+
+      const index = String(i).padStart(2, '0');
+      zip.file(`puzzle-${index}.pdf`, puzzleBuffer);
+      zip.file(`solution-${index}.pdf`, answerBuffer);
+    }
+
+    // If only one copy, offer separate downloads; otherwise ZIP
+    if (copies === 1) {
+      const blob = await zip.generateAsync({ type: 'blob' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'puzzle-and-solution.zip';
+      link.click();
+      URL.revokeObjectURL(link.href);
+    } else {
+      const blob = await zip.generateAsync({ type: 'blob' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'puzzles.zip';
+      link.click();
+      URL.revokeObjectURL(link.href);
     }
   },
 }));
