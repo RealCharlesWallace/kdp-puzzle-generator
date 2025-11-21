@@ -1,0 +1,61 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EEF2FF"/>
+      <stop offset="100%" stop-color="#DBEAFE"/>
+    </linearGradient>
+    <linearGradient id="gridFill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FDF2F8"/>
+      <stop offset="100%" stop-color="#FFE4E6"/>
+    </linearGradient>
+    <pattern id="gridPattern" x="0" y="0" width="42" height="42" patternUnits="userSpaceOnUse">
+      <rect x="0.5" y="0.5" width="41" height="41" fill="none" stroke="#E2E8F0" stroke-width="1"/>
+    </pattern>
+    <clipPath id="gridClip">
+      <rect x="560" y="50" width="560" height="530" rx="26"/>
+    </clipPath>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Text block -->
+  <g transform="translate(80 110)">
+    <rect x="0" y="0" width="440" height="380" rx="28" fill="white" stroke="#E2E8F0" stroke-width="2"/>
+    <text x="30" y="60" fill="#0F172A" font-family="Inter, Helvetica, Arial, sans-serif" font-size="34" font-weight="700">Clara · KDP Word Search</text>
+    <text x="30" y="104" fill="#475569" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" font-weight="500">Generate print-ready puzzles in seconds.</text>
+
+    <g fill="#0EA5E9" font-family="Inter, Helvetica, Arial, sans-serif" font-size="16" font-weight="700">
+      <text x="30" y="160">⚡ Fast word placement</text>
+      <text x="30" y="192">🎨 8 export-ready themes</text>
+      <text x="30" y="224">📐 10–25 grid sizes</text>
+      <text x="30" y="256">🧭 Rectangle + circle masks</text>
+      <text x="30" y="288">📝 Custom titles & answer keys</text>
+    </g>
+
+    <rect x="30" y="320" width="160" height="46" rx="12" fill="#0F172A"/>
+    <text x="50" y="350" fill="white" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" font-weight="700">Generate Now</text>
+    <text x="30" y="390" fill="#94A3B8" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" font-weight="600">realcharleswallace.github.io/kdp-puzzle-generator</text>
+  </g>
+
+  <!-- Grid preview -->
+  <g clip-path="url(#gridClip)">
+    <rect x="560" y="50" width="560" height="530" rx="26" fill="url(#gridFill)" stroke="#FBCFE8" stroke-width="2"/>
+    <rect x="560" y="50" width="560" height="530" fill="url(#gridPattern)" opacity="0.7"/>
+
+    <!-- Letters -->
+    <g fill="#BE185D" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" font-weight="700">
+      <text x="590" y="120">S E A R C H P U Z Z L E</text>
+      <text x="590" y="162">C A N D Y P O P T H E M E</text>
+      <text x="590" y="204">G R I D S I Z E T W E N T Y</text>
+      <text x="590" y="246">P D F E X P O R T R E A D Y</text>
+      <text x="590" y="288">S O L U T I O N K E Y I N C</text>
+      <text x="590" y="330">S H A R P L E T T E R L A Y</text>
+      <text x="590" y="372">C I R C L E M A S K A V A I</text>
+      <text x="590" y="414">T I T L E C U S T O M I Z E</text>
+    </g>
+
+    <!-- Highlighted word line -->
+    <line x1="590" y1="210" x2="1110" y2="210" stroke="#F472B6" stroke-width="12" stroke-linecap="round" opacity="0.65"/>
+    <line x1="600" y1="335" x2="980" y2="115" stroke="#8B5CF6" stroke-width="10" stroke-linecap="round" opacity="0.35"/>
+  </g>
+</svg>
