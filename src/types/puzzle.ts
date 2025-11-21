@@ -21,10 +21,10 @@ export type Direction =
 export type ShapeType =
   | 'rectangle'
   | 'circle'
-  | 'heart'
-  | 'star'
   | 'diamond'
   | 'triangle'
+  | 'heart'
+  | 'star'
   | 'pumpkin'
   | 'christmas_tree'
   | 'easter_egg'

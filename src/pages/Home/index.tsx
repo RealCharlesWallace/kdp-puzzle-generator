@@ -60,6 +60,21 @@ const HomePage: React.FC = () => {
     setWords(e.target.value.split('\n').filter((w) => w.trim().length > 0));
   };
 
+  const handleCsvUpload = async (event: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      return;
+    }
+    const text = await file.text();
+    const lines = text
+      .split(/\r?\n/)
+      .map((l) => l.split(/[,;\t]/)[0]?.trim() ?? '')
+      .filter((l) => l.length > 0);
+    setWords(lines);
+    setInputWords(lines.join('\n'));
+    event.target.value = '';
+  };
+
   const handleGenerateClick = (): void => {
     if (words.length < minWords) {
       const remaining = Math.max(0, minWords - words.length);
@@ -176,7 +191,20 @@ const HomePage: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700">Grid Size</label>
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium text-slate-700">Grid Size</label>
+                <label className="cursor-pointer text-xs font-semibold text-blue-600 underline">
+                  <input
+                    type="file"
+                    accept=".csv,text/csv,text/tab-separated-values,.tsv,.txt"
+                    className="hidden"
+                    onChange={(e) => {
+                      void handleCsvUpload(e);
+                    }}
+                  />
+                  Import CSV
+                </label>
+              </div>
               <div className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white p-2 shadow-sm">
                 <input
                   type="range"
