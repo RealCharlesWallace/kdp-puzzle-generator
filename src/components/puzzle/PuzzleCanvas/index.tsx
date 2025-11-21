@@ -116,7 +116,8 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
 
     // Draw grid cells
     const fontSize = Math.max(10, cellSize * 0.5);
-    ctx.font = `bold ${fontSize}px Inter, -apple-system, BlinkMacSystemFont, sans-serif`;
+    const monoFont = `"SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`;
+    ctx.font = `bold ${fontSize}px ${monoFont}`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
@@ -226,7 +227,7 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
           ctx.shadowColor = 'transparent';
           ctx.shadowBlur = 0;
           ctx.fillStyle = theme.colors.letterColor;
-          ctx.font = `bold ${fontSize}px Inter, -apple-system, BlinkMacSystemFont, sans-serif`;
+          ctx.font = `bold ${fontSize}px ${monoFont}`;
           ctx.textBaseline = 'middle';
           const centerX = x + cellSize / 2;
           const centerY = y + cellSize / 2;
