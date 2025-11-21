@@ -105,7 +105,7 @@ const HomePage: React.FC = () => {
             />
           </div>
           <h1 className="bg-gradient-to-r from-slate-900 to-blue-700 bg-clip-text text-xl font-bold tracking-tight text-transparent">
-            Hello Crossword
+            Hello Word Puzzles
           </h1>
         </div>
         <div className="flex items-center gap-4">
