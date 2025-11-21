@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { usePuzzleStore } from '@/store/puzzleStore';
 import { PuzzleCanvas } from '@/components/puzzle/PuzzleCanvas';
 import { DocsModal } from '@/components/docs/DocsModal';

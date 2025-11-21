@@ -271,10 +271,10 @@ export class PuzzlePDFGenerator {
         return;
       }
 
-      const startX = gridX + startPos.col * cellSize + cellSize / 2;
-      const startY = gridY + startPos.row * cellSize + cellSize / 2;
-      const endX = gridX + endPos.col * cellSize + cellSize / 2;
-      const endY = gridY + endPos.row * cellSize + cellSize / 2;
+      const startX = gridX + startPos.col * cellSizeIn + cellSizeIn / 2;
+      const startY = gridY + startPos.row * cellSizeIn + cellSizeIn / 2;
+      const endX = gridX + endPos.col * cellSizeIn + cellSizeIn / 2;
+      const endY = gridY + endPos.row * cellSizeIn + cellSizeIn / 2;
 
       doc.line(startX, startY, endX, endY);
     });
