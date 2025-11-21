@@ -6,6 +6,8 @@ import { DifficultyLevel, ShapeType } from '@/types/puzzle';
 import { getAllThemes, getTheme } from '@/config/themes';
 import { GridBuilder } from '@/core/algorithm/GridBuilder';
 
+const TOAST_DURATION = 2500;
+
 const HomePage: React.FC = () => {
   const {
     currentPuzzle,
@@ -63,7 +65,14 @@ const HomePage: React.FC = () => {
       const remaining = Math.max(0, minWords - words.length);
       const plural = remaining === 1 ? '' : 's';
       setToastMessage(`Add ${remaining} more word${plural} (minimum ${minWords}) to generate.`);
-      setTimeout(() => setToastMessage(null), 2500);
+      setTimeout(() => setToastMessage(null), TOAST_DURATION);
+      return;
+    }
+
+    const hasMultiWordLine = words.some((w) => w.trim().includes(' '));
+    if (hasMultiWordLine) {
+      setToastMessage('Each line should be a single word — remove spaces or put one per line.');
+      setTimeout(() => setToastMessage(null), TOAST_DURATION);
       return;
     }
     void generatePuzzle();
