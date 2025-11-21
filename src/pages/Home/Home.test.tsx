@@ -5,27 +5,27 @@ import { BrowserRouter } from 'react-router-dom';
 import HomePage from './index';
 
 describe('HomePage', () => {
-  it('should render the hero heading', () => {
+  it('should render configuration controls and preview heading', () => {
     render(
       <BrowserRouter>
         <HomePage />
       </BrowserRouter>
     );
 
-    expect(
-      screen.getByText(/Create Professional Word Search Puzzles in Seconds/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Configuration/i)).toBeInTheDocument();
+    expect(screen.getByRole('slider')).toBeInTheDocument();
+    expect(screen.getByText(/Preview/i)).toBeInTheDocument();
   });
 
-  it('should have a link to the generator page', () => {
+  it('should render the generate button in a disabled state before words are added', () => {
     render(
       <BrowserRouter>
         <HomePage />
       </BrowserRouter>
     );
 
-    const startButton = screen.getByText(/Start Creating/i);
-    expect(startButton).toBeInTheDocument();
-    expect(startButton.closest('a')).toHaveAttribute('href', '/generator');
+    const generateButton = screen.getByRole('button', { name: /Generate Puzzle/i });
+    expect(generateButton).toBeInTheDocument();
+    expect(generateButton).toBeDisabled();
   });
 });
