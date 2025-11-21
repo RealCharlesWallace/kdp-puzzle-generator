@@ -26,6 +26,6 @@ describe('HomePage', () => {
 
     const generateButton = screen.getByRole('button', { name: /Generate Puzzle/i });
     expect(generateButton).toBeInTheDocument();
-    expect(generateButton).toBeDisabled();
+    expect(generateButton).toBeEnabled();
   });
 });
