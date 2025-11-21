@@ -350,28 +350,52 @@ const HomePage: React.FC = () => {
       <footer className="px-4 pb-10 sm:px-6">
         <div className="container mx-auto">
           <div className="mt-6 rounded-2xl border border-amber-100 bg-gradient-to-r from-amber-50 via-rose-50 to-sky-50 p-6 shadow-sm md:p-8">
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-              <div className="space-y-2">
-                <div className="inline-flex items-center gap-2 rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800">
-                  Recommended
+            <div className="grid gap-6 md:grid-cols-[1.1fr_0.9fr] md:items-center">
+              <div className="flex gap-4">
+                <div className="hidden h-32 w-24 shrink-0 overflow-hidden rounded-xl border border-amber-100 shadow-sm sm:block">
+                  <img
+                    src="/book-cover.jpg"
+                    alt="I Like to Cut & Paste Stuff book cover"
+                    className="h-full w-full object-cover"
+                  />
                 </div>
-                <h3 className="text-lg font-semibold text-slate-900">
-                  Hello Imagination · Creative Kids Word Searches
-                </h3>
-                <p className="text-sm text-slate-600 md:max-w-2xl">
-                  A beautifully illustrated companion book with playful themes inspired by the
-                  Imagination colorway.
-                </p>
+                <div className="space-y-2">
+                  <div className="inline-flex items-center gap-2 rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800">
+                    Recommended
+                  </div>
+                  <h3 className="text-lg font-semibold text-slate-900">
+                    I Like to Cut &amp; Paste Stuff
+                  </h3>
+                  <p className="text-sm font-medium text-slate-700">
+                    Explore Your Creativity In This Creative Gluebook Journal for All Ages
+                  </p>
+                  <p className="text-xs text-slate-600">
+                    Part of Hello Imagination Creative Activity Books · 4.6★ (14 reviews)
+                  </p>
+                  <p className="text-xs text-slate-600 md:max-w-xl">
+                    Gluebooking fun with hand-drawn art, journaling prompts, and ready-to-cut images
+                    to jump-start creative play for kids, tweens, teens, and adults.
+                  </p>
+                </div>
               </div>
-              <a
-                href="https://www.amazon.com/dp/B0DKG36F8W?ref_=cm_sw_r_cp_ud_dp_08S189X0VN54S6HVCD99&starsLeft=1&skipTwisterOG=1"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 px-4 py-3 text-sm font-semibold text-amber-900 shadow-sm transition hover:shadow md:self-start"
-              >
-                View on Amazon
-                <span aria-hidden>↗</span>
-              </a>
+              <div className="flex items-center gap-4 md:justify-end">
+                <div className="h-32 w-24 shrink-0 overflow-hidden rounded-xl border border-amber-100 shadow-sm sm:hidden">
+                  <img
+                    src="/book-cover.jpg"
+                    alt="I Like to Cut & Paste Stuff book cover"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <a
+                  href="https://www.amazon.com/dp/B0DKG36F8W?ref_=cm_sw_r_cp_ud_dp_08S189X0VN54S6HVCD99&starsLeft=1&skipTwisterOG=1"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 px-4 py-3 text-sm font-semibold text-amber-900 shadow-sm transition hover:shadow"
+                >
+                  View on Amazon
+                  <span aria-hidden>↗</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
