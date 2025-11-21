@@ -94,13 +94,13 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 font-sans text-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-rose-50 to-sky-50 font-sans text-slate-900">
       <header className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200/60 bg-white/80 px-6 py-4 shadow-sm backdrop-blur-md">
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 text-xl font-bold text-white shadow-md">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-pink-500 to-amber-400 text-xl font-bold text-white shadow-md">
             C
           </div>
-          <h1 className="bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-xl font-bold tracking-tight text-transparent">
+          <h1 className="bg-gradient-to-r from-slate-900 to-blue-700 bg-clip-text text-xl font-bold tracking-tight text-transparent">
             Clara
           </h1>
         </div>
@@ -137,31 +137,7 @@ const HomePage: React.FC = () => {
           </div>
         )}
         {/* Sidebar Controls */}
-        <aside className="flex w-full flex-shrink-0 flex-col gap-6 rounded-xl border border-white/50 bg-white/60 p-6 pb-8 shadow-sm backdrop-blur-sm lg:w-80">
-          <div className="rounded-lg border border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 p-4 shadow-sm">
-            <div className="flex items-start gap-3">
-              <div className="rounded-full bg-amber-100 px-2 py-1 text-xs font-semibold text-amber-700">
-                Featured
-              </div>
-              <div className="space-y-2">
-                <div className="text-sm font-semibold text-amber-800">
-                  Hello Imagination · Creative Kids Word Searches
-                </div>
-                <p className="text-xs text-amber-700">
-                  Explore the companion book on Amazon with playful puzzles and vibrant themes.
-                </p>
-                <a
-                  href="https://www.amazon.com/dp/B0DKG36F8W?ref_=cm_sw_r_cp_ud_dp_08S189X0VN54S6HVCD99&starsLeft=1&skipTwisterOG=1"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1 rounded-md bg-amber-500 px-3 py-1.5 text-xs font-semibold text-amber-900 shadow-sm transition hover:shadow"
-                >
-                  View on Amazon
-                  <span aria-hidden>↗</span>
-                </a>
-              </div>
-            </div>
-          </div>
+        <aside className="flex w-full flex-shrink-0 flex-col gap-6 rounded-xl border border-white/50 bg-white/70 p-6 pb-8 shadow-sm backdrop-blur-sm lg:w-80">
           <div className="space-y-4">
             <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400">
               Configuration
@@ -370,6 +346,36 @@ const HomePage: React.FC = () => {
           </div>
         </section>
       </main>
+
+      <footer className="px-4 pb-10 sm:px-6">
+        <div className="container mx-auto">
+          <div className="mt-6 rounded-2xl border border-amber-100 bg-gradient-to-r from-amber-50 via-rose-50 to-sky-50 p-6 shadow-sm md:p-8">
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <div className="space-y-2">
+                <div className="inline-flex items-center gap-2 rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800">
+                  Recommended
+                </div>
+                <h3 className="text-lg font-semibold text-slate-900">
+                  Hello Imagination · Creative Kids Word Searches
+                </h3>
+                <p className="text-sm text-slate-600 md:max-w-2xl">
+                  A beautifully illustrated companion book with playful themes inspired by the
+                  Imagination colorway.
+                </p>
+              </div>
+              <a
+                href="https://www.amazon.com/dp/B0DKG36F8W?ref_=cm_sw_r_cp_ud_dp_08S189X0VN54S6HVCD99&starsLeft=1&skipTwisterOG=1"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 px-4 py-3 text-sm font-semibold text-amber-900 shadow-sm transition hover:shadow md:self-start"
+              >
+                View on Amazon
+                <span aria-hidden>↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
 
       {/* Documentation Modal */}
       <DocsModal isOpen={showDocs} onClose={() => setShowDocs(false)} />
