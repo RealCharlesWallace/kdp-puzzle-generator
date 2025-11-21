@@ -105,6 +105,23 @@ export class GridBuilder {
       return mask;
     }
 
+    if (shape === 'heart') {
+      // Normalize coordinates to [-1, 1] and use a heart implicit equation
+      const norm = (val: number): number => (2 * val) / (size - 1) - 1; // map 0..size-1 to -1..1
+      for (let row = 0; row < size; row++) {
+        for (let col = 0; col < size; col++) {
+          const x = norm(col);
+          const y = -norm(row); // flip y to orient upwards
+          // Classic heart curve: (x^2 + y^2 - 1)^3 - x^2 y^3 <= 0
+          const lhs = Math.pow(x * x + y * y - 1, 3) - x * x * Math.pow(y, 3);
+          if (lhs > 0) {
+            mask[row][col] = false;
+          }
+        }
+      }
+      return mask;
+    }
+
     return mask;
   }
 }

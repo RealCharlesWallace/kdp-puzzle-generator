@@ -97,26 +97,21 @@ export function GeneratorPage(): JSX.Element {
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-medium text-gray-700">Shape</label>
                 <div className="grid grid-cols-2 gap-2">
-                  <button
-                    onClick={() => setShape('rectangle')}
-                    className={`rounded-lg border-2 p-3 text-sm font-medium transition-colors ${
-                      config.shape === 'rectangle'
-                        ? 'border-primary-600 bg-primary-50 text-primary-600'
-                        : 'border-gray-300 text-gray-700 hover:border-gray-400'
-                    }`}
-                  >
-                    Rectangle
-                  </button>
-                  <button
-                    onClick={() => setShape('circle')}
-                    className={`rounded-lg border-2 p-3 text-sm font-medium transition-colors ${
-                      config.shape === 'circle'
-                        ? 'border-primary-600 bg-primary-50 text-primary-600'
-                        : 'border-gray-300 text-gray-700 hover:border-gray-400'
-                    }`}
-                  >
-                    Circle
-                  </button>
+                  {(['rectangle', 'circle', 'star', 'diamond', 'triangle', 'heart'] as const).map(
+                    (shape) => (
+                      <button
+                        key={shape}
+                        onClick={() => setShape(shape)}
+                        className={`rounded-lg border-2 p-3 text-sm font-medium transition-colors ${
+                          config.shape === shape
+                            ? 'border-primary-600 bg-primary-50 text-primary-600'
+                            : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                        }`}
+                      >
+                        {shape.charAt(0).toUpperCase() + shape.slice(1)}
+                      </button>
+                    )
+                  )}
                 </div>
               </div>
 

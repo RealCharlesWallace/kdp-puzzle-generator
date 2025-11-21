@@ -249,6 +249,10 @@ const HomePage: React.FC = () => {
                 >
                   <option value="rectangle">Rectangle</option>
                   <option value="circle">Circle</option>
+                  <option value="star">Star</option>
+                  <option value="diamond">Diamond</option>
+                  <option value="triangle">Triangle</option>
+                  <option value="heart">Heart</option>
                 </select>
                 <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
                   ▼
