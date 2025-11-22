@@ -165,21 +165,25 @@ export class PuzzlePDFGenerator {
     doc.setFont(theme.fonts.wordList, 'bold');
     const wordListRgb = this.hexToRgb(theme.colors.wordListColor);
     doc.setTextColor(wordListRgb[0], wordListRgb[1], wordListRgb[2]);
-    doc.text('Find these words:', margin.left, wordListY);
+    doc.text('Find these words:', pageWidth / 2, wordListY, { align: 'center' });
 
     // Arrange words in columns
     const columns = 3;
-    const columnWidth = availableWidth / columns;
+    const columnWidth = Math.min(availableWidth / columns, 2);
     const wordsPerColumn = Math.ceil(puzzle.words.length / columns);
+    const totalWordsHeight = wordsPerColumn * 0.2;
+    const wordsTop = wordListY + 0.2;
+    const wordsBlockWidth = columnWidth * columns;
+    const wordsStartX = (pageWidth - wordsBlockWidth) / 2;
 
     doc.setFont(theme.fonts.wordList, 'normal');
     puzzle.words.forEach((word, index) => {
       const column = Math.floor(index / wordsPerColumn);
       const row = index % wordsPerColumn;
-      const x = margin.left + column * columnWidth;
-      const y = wordListY + 0.2 + row * 0.2;
+      const x = wordsStartX + column * columnWidth;
+      const y = wordsTop + row * 0.2;
 
-      if (y < pageHeight - margin.bottom) {
+      if (y < pageHeight - margin.bottom && y < wordListY + totalWordsHeight + 0.2) {
         doc.text(`• ${word.toUpperCase()}`, x, y);
       }
     });
