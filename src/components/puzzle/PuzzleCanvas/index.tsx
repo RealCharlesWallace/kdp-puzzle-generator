@@ -267,7 +267,7 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
   return (
     <div
       ref={containerRef}
-      className="flex h-full w-full items-center justify-center overflow-hidden rounded-xl p-3 shadow-lg transition-all duration-300 sm:p-6"
+      className="flex h-full min-h-[55vh] w-full items-center justify-center overflow-hidden rounded-xl p-3 shadow-lg transition-all duration-300 sm:min-h-0 sm:p-6"
       style={{
         width: '100%',
         height: '100%',
