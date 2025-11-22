@@ -276,10 +276,6 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
     ctx.font = `bold ${fontSize}px ${monoFont}`;
     ctx.textBaseline = 'middle';
     letterPositions.forEach(({ x, y, letter }) => {
-      const strokeWidth = Math.max(0.5, cellSize * 0.05);
-      ctx.lineWidth = strokeWidth;
-      ctx.strokeStyle = theme.colors.gridBackground;
-      ctx.strokeText(letter, x, y);
       ctx.fillText(letter, x, y);
     });
   }, [grid, placedWords, showSolution, theme, dimensions]);
