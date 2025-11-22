@@ -644,7 +644,10 @@ const HomePage: React.FC = () => {
                     onChange={(e) => setRandomCountInput(e.target.value)}
                     onBlur={() => {
                       const parsed = parseInt(randomCountInput || `${minWords}`, 10);
-                      const safe = Math.max(minWords, Math.min(100, Number.isFinite(parsed) ? parsed : minWords));
+                      const safe = Math.max(
+                        minWords,
+                        Math.min(100, Number.isFinite(parsed) ? parsed : minWords)
+                      );
                       setRandomCountInput(String(safe));
                     }}
                     className="w-24 rounded border border-slate-200 px-2 py-1 text-sm"
