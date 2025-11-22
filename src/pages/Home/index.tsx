@@ -394,14 +394,15 @@ const HomePage: React.FC = () => {
         const query = encodeURIComponent(themeTokens.join(' '));
         const resp = await fetch(`https://api.datamuse.com/words?ml=${query}&max=200`);
         if (resp.ok) {
-          const data = (await resp.json()) as unknown;
-          if (Array.isArray(data)) {
-            data.forEach((item) => {
-              if (isDatamuseWord(item)) {
-                const cleaned = item.word.replace(/[^a-zA-Z]/g, '');
-                if (cleaned.length > 2) {
-                  apiResults.push(cleaned.toUpperCase());
-                }
+          const parsed = (await resp.json()) as unknown;
+          if (Array.isArray(parsed)) {
+            parsed.forEach((entry: unknown) => {
+              if (!isDatamuseWord(entry)) {
+                return;
+              }
+              const cleaned = entry.word.replace(/[^a-zA-Z]/g, '');
+              if (cleaned.length > 2) {
+                apiResults.push(cleaned.toUpperCase());
               }
             });
           }
@@ -414,23 +415,23 @@ const HomePage: React.FC = () => {
     const themeSeeds: string[] = [];
     themeTokens.forEach((token) => {
       if (isThemeKey(token)) {
-        const list = THEME_SEEDS[token];
+        const list = THEME_SEEDS[token] ?? [];
         themeSeeds.push(...list.map((w) => w.toUpperCase()));
       }
     });
 
-    const pool = [
-      ...new Set([
+    const pool: string[] = Array.from(
+      new Set<string>([
         ...apiResults,
         ...themeSeeds,
         ...RANDOM_WORD_POOL.map((w) => w.toUpperCase()),
-      ]),
-    ];
+      ])
+    );
 
     // Simple shuffle
     for (let i = pool.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      const temp = pool[i];
+      const temp = pool[i]!;
       pool[i] = pool[j] ?? temp;
       pool[j] = temp;
     }
