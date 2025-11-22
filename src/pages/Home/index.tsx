@@ -376,29 +376,11 @@ const HomePage: React.FC = () => {
       .map((w) => w.trim())
       .filter(Boolean);
 
-    const normalize = (val: string): string => val.toLowerCase().replace(/[^a-z]/g, '');
-
-    const bagOverlap = (a: string, b: string): number => {
-      const aSet = new Set(a.split(''));
-      const bSet = new Set(b.split(''));
-      let score = 0;
-      aSet.forEach((ch) => {
-        if (bSet.has(ch)) {
-          score += 1;
-        }
-      });
-      return score / Math.max(1, Math.max(aSet.size, bSet.size));
-    };
-
-    const seedPool = new Set<string>(RANDOM_WORD_POOL);
-    Object.values(THEME_SEEDS).forEach((list) => list.forEach((w) => seedPool.add(w)));
-    const candidates = Array.from(seedPool);
-
     const apiResults: string[] = [];
     if (themeTokens.length > 0) {
       try {
         const query = encodeURIComponent(themeTokens.join(' '));
-        const resp = await fetch(`https://api.datamuse.com/words?ml=${query}&max=150`);
+        const resp = await fetch(`https://api.datamuse.com/words?ml=${query}&max=200`);
         if (resp.ok) {
           const data: Array<{ word: string }> = await resp.json();
           data.forEach((item) => {
@@ -413,55 +395,29 @@ const HomePage: React.FC = () => {
       }
     }
 
-    const apiSet = new Set(apiResults);
-
-    const scored = candidates
-      .map((word) => {
-        const normWord = normalize(word);
-        let baseScore = apiSet.has(word.toUpperCase()) ? 4 : 0;
-        for (const token of themeTokens) {
-          const normToken = normalize(token);
-          if (!normToken) continue;
-          if (normWord.includes(normToken) || normToken.includes(normWord)) {
-            baseScore += 3;
-          }
-          baseScore += bagOverlap(normWord, normToken);
-        }
-
-        // Boost if theme matches a seed category
-        const themeCategoryBoost = themeTokens.some((token) => {
-          const list = THEME_SEEDS[token as keyof typeof THEME_SEEDS];
-          return list?.includes(word.toLowerCase());
-        })
-          ? 2
-          : 0;
-
-        return { word: word.toUpperCase(), score: baseScore + themeCategoryBoost };
-      })
-      .sort((a, b) => b.score - a.score + Math.random() * 0.01); // light shuffle
-
-    const picked: string[] = [];
-    apiResults.forEach((w) => {
-      if (picked.length < requested && !picked.includes(w)) {
-        picked.push(w);
+    const themeSeeds: string[] = [];
+    themeTokens.forEach((token) => {
+      const list = THEME_SEEDS[token as keyof typeof THEME_SEEDS];
+      if (list) {
+        themeSeeds.push(...list.map((w) => w.toUpperCase()));
       }
     });
 
-    for (const item of scored) {
-      if (picked.length >= requested) break;
-      picked.push(item.word);
+    const pool = [
+      ...new Set([
+        ...apiResults,
+        ...themeSeeds,
+        ...RANDOM_WORD_POOL.map((w) => w.toUpperCase()),
+      ]),
+    ];
+
+    // Simple shuffle
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j]!, pool[i]!];
     }
 
-    // If not enough, fill from random pool
-    const remaining = requested - picked.length;
-    if (remaining > 0) {
-      const pool = [...RANDOM_WORD_POOL];
-      while (picked.length < requested && pool.length > 0) {
-        const index = Math.floor(Math.random() * pool.length);
-        const [word] = pool.splice(index, 1);
-        if (word) picked.push(word.toUpperCase());
-      }
-    }
+    const picked = pool.slice(0, requested);
 
     setWords(picked);
     setInputWords(picked.join('\n'));
@@ -634,51 +590,48 @@ const HomePage: React.FC = () => {
               </span>
             </div>
             <div className="space-y-2 rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
+              <div className="space-y-1">
+                <label className="text-sm font-medium text-slate-700" htmlFor="random-theme">
+                  Theme or phrase (optional)
+                </label>
+                <input
+                  id="random-theme"
+                  type="text"
+                  value={randomTheme}
+                  onChange={(e) => setRandomTheme(e.target.value)}
+                  placeholder="e.g. space adventure"
+                  className="w-full rounded border border-slate-200 px-2 py-1 text-sm"
+                />
+              </div>
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                 <div className="space-y-1">
-                  <label className="text-sm font-medium text-slate-700" htmlFor="random-theme">
-                    Theme or phrase (optional)
+                  <label className="text-sm font-medium text-slate-700" htmlFor="random-count">
+                    Count
                   </label>
                   <input
-                    id="random-theme"
-                    type="text"
-                    value={randomTheme}
-                    onChange={(e) => setRandomTheme(e.target.value)}
-                    placeholder="e.g. space adventure"
-                    className="w-full rounded border border-slate-200 px-2 py-1 text-sm"
+                    id="random-count"
+                    type="number"
+                    min={minWords}
+                    max={100}
+                    value={randomCount}
+                    onChange={(e) =>
+                      setRandomCount(Math.max(minWords, Math.min(100, Number(e.target.value))))
+                    }
+                    className="w-24 rounded border border-slate-200 px-2 py-1 text-sm"
                   />
                 </div>
-                <div className="flex items-end gap-2 sm:justify-end">
-                  <div className="space-y-1">
-                    <label className="text-sm font-medium text-slate-700" htmlFor="random-count">
-                      Count
-                    </label>
-                    <input
-                      id="random-count"
-                      type="number"
-                      min={minWords}
-                      max={100}
-                      value={randomCount}
-                      onChange={(e) =>
-                        setRandomCount(Math.max(minWords, Math.min(100, Number(e.target.value))))
-                      }
-                      className="w-24 rounded border border-slate-200 px-2 py-1 text-sm"
-                    />
-                  </div>
-                  <button
-                    onClick={() => {
-                      void handleRandomWords();
-                    }}
-                    disabled={randomLoading}
-                    className="h-10 rounded-md bg-gradient-to-r from-primary-600 via-primary-500 to-secondary-500 px-4 text-sm font-semibold text-white shadow-sm transition hover:shadow-md disabled:cursor-not-allowed disabled:opacity-70"
-                  >
-                    {randomLoading ? 'Making...' : 'Make'}
-                  </button>
-                </div>
+                <button
+                  onClick={() => {
+                    void handleRandomWords();
+                  }}
+                  disabled={randomLoading}
+                  className="h-10 rounded-md bg-gradient-to-r from-primary-600 via-primary-500 to-secondary-500 px-4 text-sm font-semibold text-white shadow-sm transition hover:shadow-md disabled:cursor-not-allowed disabled:opacity-70"
+                >
+                  {randomLoading ? 'Making...' : 'Make'}
+                </button>
               </div>
               <p className="text-xs text-slate-500">
-                Uses lightweight semantic matching to pick related words. Leave theme blank for a
-                random mix.
+                Auto-fills a themed word list. Leave the theme blank for a quick random mix.
               </p>
             </div>
             <textarea
