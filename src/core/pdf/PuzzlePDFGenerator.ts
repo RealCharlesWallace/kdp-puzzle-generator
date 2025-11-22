@@ -334,10 +334,6 @@ export class PuzzlePDFGenerator {
       const endX = gridX + endPos.col * cellSizeIn + cellSizeIn / 2;
       const endY = gridY + endPos.row * cellSizeIn + cellSizeIn / 2;
 
-      const centerX = (startX + endX) / 2;
-      const centerY = (startY + endY) / 2;
-      const dx = endX - startX;
-      const dy = endY - startY;
       drawWordOutline(startX, startY, endX, endY);
     });
 
