@@ -14,10 +14,12 @@ export const DocsModal: React.FC<DocsModalProps> = ({ isOpen, onClose }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
       <div className="flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-6 text-white">
+        <div className="flex items-center justify-between bg-gradient-to-r from-[#ff2fb2] via-[#ff5dc6] to-[#ff8bd1] px-8 py-6 text-white">
           <div>
-            <h2 className="text-2xl font-bold">Clara Documentation</h2>
-            <p className="mt-1 text-sm text-blue-100">KDP Word Search Puzzle Generator</p>
+            <h2 className="text-2xl font-bold">Hello Word Puzzles</h2>
+            <p className="mt-1 text-sm text-pink-100">
+              Hello Imagination! word search generator for KDP and printables
+            </p>
           </div>
           <button
             onClick={onClose}
@@ -45,21 +47,23 @@ export const DocsModal: React.FC<DocsModalProps> = ({ isOpen, onClose }) => {
               </h3>
               <ol className="space-y-3 text-slate-700">
                 <li>
-                  <strong>Enter Words:</strong> Type your words in the sidebar (one per line,
-                  minimum 5 words)
+                  <strong>Fill words:</strong> Type them in (one per line, min 5) or use
+                  &quot;Randomly make&quot; with a theme like &quot;ocean adventure&quot;.
                 </li>
                 <li>
-                  <strong>Configure:</strong> Adjust grid size (10-25), difficulty, and shape
+                  <strong>Configure:</strong> Pick grid size (10–25), difficulty, shape, and PDF
+                  theme.
                 </li>
                 <li>
-                  <strong>Choose Theme:</strong> Select a PDF theme for your export
+                  <strong>Generate:</strong> Click &quot;Generate Puzzle&quot; to build the grid.
                 </li>
                 <li>
-                  <strong>Generate:</strong> Click &quot;Generate Puzzle&quot; to create your word
-                  search
+                  <strong>Preview:</strong> Toggle &quot;Show Solution&quot; to see oriented hollow
+                  highlights that match the PDF answer key.
                 </li>
                 <li>
-                  <strong>Export:</strong> Click &quot;Export PDF&quot; to download your puzzle
+                  <strong>Export:</strong> Use &quot;Export PDFs&quot; (single or multiple copies)
+                  with the chosen theme.
                 </li>
               </ol>
             </section>
@@ -74,7 +78,8 @@ export const DocsModal: React.FC<DocsModalProps> = ({ isOpen, onClose }) => {
                 <div className="rounded-lg bg-slate-50 p-4">
                   <h4 className="mb-2 font-semibold text-slate-900">Grid Size (10-25)</h4>
                   <p className="text-sm text-slate-600">
-                    Larger grids can fit more words. Recommended: 15-20 for most puzzles.
+                    Larger grids fit longer lists; 15–20 works well for most. The app warns if words
+                    won&apos;t fit.
                   </p>
                 </div>
 
@@ -105,6 +110,10 @@ export const DocsModal: React.FC<DocsModalProps> = ({ isOpen, onClose }) => {
                     <li>
                       <strong>Circle:</strong> Circular masked grid
                     </li>
+                    <li>
+                      <strong>Star / Heart / Diamond / Triangle:</strong> Fun masks sized to fit the
+                      word list
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -116,10 +125,14 @@ export const DocsModal: React.FC<DocsModalProps> = ({ isOpen, onClose }) => {
                 <span className="text-2xl">🎨</span> PDF Themes
               </h3>
               <p className="mb-4 text-slate-700">
-                Choose from 8 professionally designed themes. The preview shows exactly how your PDF
-                will look!
+                Hello Imagination palette by default. Switch themes to match your book style; the
+                preview mirrors the PDF.
               </p>
               <div className="grid grid-cols-2 gap-3">
+                <div className="rounded-lg border border-pink-200 bg-gradient-to-br from-[#ff5dc6] to-[#ffd6f2] p-3">
+                  <div className="font-semibold text-[#14001b]">Hello Imagination</div>
+                  <div className="text-xs text-[#3e1b41]">Playful pink brand default</div>
+                </div>
                 <div className="rounded-lg border border-indigo-200 bg-gradient-to-br from-indigo-50 to-purple-50 p-3">
                   <div className="font-semibold text-indigo-900">Modern Gradient</div>
                   <div className="text-xs text-indigo-700">Sleek & contemporary</div>
@@ -176,7 +189,8 @@ export const DocsModal: React.FC<DocsModalProps> = ({ isOpen, onClose }) => {
                 <li className="flex items-start gap-2">
                   <span className="font-bold text-blue-600">•</span>
                   <span>
-                    <strong>Preview:</strong> Use &quot;Show Solution&quot; to verify word placement
+                    <strong>Preview:</strong> Use &quot;Show Solution&quot; to see the same hollow
+                    strokes used in the PDF answer key.
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
@@ -189,7 +203,8 @@ export const DocsModal: React.FC<DocsModalProps> = ({ isOpen, onClose }) => {
                 <li className="flex items-start gap-2">
                   <span className="font-bold text-blue-600">•</span>
                   <span>
-                    <strong>Answer Key:</strong> PDFs include an answer key on page 2
+                    <strong>Answer Key:</strong> PDFs include an answer key on page 2 with oriented
+                    outlines
                   </span>
                 </li>
               </ul>
@@ -214,7 +229,7 @@ export const DocsModal: React.FC<DocsModalProps> = ({ isOpen, onClose }) => {
                 <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
                   <h4 className="mb-1 font-semibold text-amber-900">Preview cut off?</h4>
                   <p className="text-sm text-amber-800">
-                    The canvas auto-scales - try zooming your browser
+                    The canvas auto-scales; rotate your device or ensure the preview area has height.
                   </p>
                 </div>
               </div>
