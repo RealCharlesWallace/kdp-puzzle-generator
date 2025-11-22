@@ -302,6 +302,7 @@ const HomePage: React.FC = () => {
   const [copyCount, setCopyCount] = useState(1);
   const [randomCount, setRandomCount] = useState(10);
   const [randomTheme, setRandomTheme] = useState('');
+  const [randomLoading, setRandomLoading] = useState(false);
   const [showSolution, setShowSolution] = useState(false);
   const [showDocs, setShowDocs] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -366,7 +367,8 @@ const HomePage: React.FC = () => {
     void generatePuzzle();
   };
 
-  const handleRandomWords = (): void => {
+  const handleRandomWords = async (): Promise<void> => {
+    setRandomLoading(true);
     const requested = Math.max(minWords, Math.min(100, Math.floor(randomCount) || minWords));
     const themeTokens = randomTheme
       .toLowerCase()
@@ -392,10 +394,31 @@ const HomePage: React.FC = () => {
     Object.values(THEME_SEEDS).forEach((list) => list.forEach((w) => seedPool.add(w)));
     const candidates = Array.from(seedPool);
 
+    const apiResults: string[] = [];
+    if (themeTokens.length > 0) {
+      try {
+        const query = encodeURIComponent(themeTokens.join(' '));
+        const resp = await fetch(`https://api.datamuse.com/words?ml=${query}&max=150`);
+        if (resp.ok) {
+          const data: Array<{ word: string }> = await resp.json();
+          data.forEach((item) => {
+            const cleaned = item.word.replace(/[^a-zA-Z]/g, '');
+            if (cleaned.length > 2) {
+              apiResults.push(cleaned.toUpperCase());
+            }
+          });
+        }
+      } catch {
+        // ignore network errors, fallback below
+      }
+    }
+
+    const apiSet = new Set(apiResults);
+
     const scored = candidates
       .map((word) => {
         const normWord = normalize(word);
-        let baseScore = 0;
+        let baseScore = apiSet.has(word.toUpperCase()) ? 4 : 0;
         for (const token of themeTokens) {
           const normToken = normalize(token);
           if (!normToken) continue;
@@ -418,6 +441,12 @@ const HomePage: React.FC = () => {
       .sort((a, b) => b.score - a.score + Math.random() * 0.01); // light shuffle
 
     const picked: string[] = [];
+    apiResults.forEach((w) => {
+      if (picked.length < requested && !picked.includes(w)) {
+        picked.push(w);
+      }
+    });
+
     for (const item of scored) {
       if (picked.length >= requested) break;
       picked.push(item.word);
@@ -436,6 +465,7 @@ const HomePage: React.FC = () => {
 
     setWords(picked);
     setInputWords(picked.join('\n'));
+    setRandomLoading(false);
   };
 
   return (
@@ -636,10 +666,13 @@ const HomePage: React.FC = () => {
                     />
                   </div>
                   <button
-                    onClick={handleRandomWords}
-                    className="h-10 rounded-md bg-gradient-to-r from-primary-600 via-primary-500 to-secondary-500 px-4 text-sm font-semibold text-white shadow-sm transition hover:shadow-md"
+                    onClick={() => {
+                      void handleRandomWords();
+                    }}
+                    disabled={randomLoading}
+                    className="h-10 rounded-md bg-gradient-to-r from-primary-600 via-primary-500 to-secondary-500 px-4 text-sm font-semibold text-white shadow-sm transition hover:shadow-md disabled:cursor-not-allowed disabled:opacity-70"
                   >
-                    Make
+                    {randomLoading ? 'Making...' : 'Make'}
                   </button>
                 </div>
               </div>
