@@ -92,27 +92,40 @@ export class GridBuilder {
       }
 
       case 'star': {
-        // 8-point star approximation: thick cross + diagonals + center
-        const center = (size - 1) / 2;
-        const armThickness = Math.max(1, Math.floor(size * 0.1));
-        const coreRadius = Math.max(2, Math.floor(size * 0.15));
+        // 5-point star using point-in-polygon against a decagon (outer + inner points)
+        const norm = (val: number): number => (2 * val) / (size - 1) - 1; // map 0..size-1 to -1..1
+        const outerRadius = 1;
+        const innerRadius = 0.45;
+        const points: Array<{ x: number; y: number }> = Array.from({ length: 10 }, (_, i) => {
+          const angle = -Math.PI / 2 + (i * Math.PI) / 5; // start at top, go clockwise
+          const radius = i % 2 === 0 ? outerRadius : innerRadius;
+          return {
+            x: radius * Math.cos(angle),
+            y: radius * Math.sin(angle),
+          };
+        });
 
-        // Start with everything masked, then open the star
-        for (let row = 0; row < size; row++) {
-          mask[row]!.fill(false);
-        }
+        const pointInPolygon = (x: number, y: number): boolean => {
+          let inside = false;
+          for (let i = 0, j = points.length - 1; i < points.length; j = i++) {
+            const xi = points[i]!.x;
+            const yi = points[i]!.y;
+            const xj = points[j]!.x;
+            const yj = points[j]!.y;
+            const intersect =
+              yi > y !== yj > y &&
+              x < ((xj - xi) * (y - yi)) / (yj - yi + Number.EPSILON) + xi;
+            if (intersect) inside = !inside;
+          }
+          return inside;
+        };
 
         for (let row = 0; row < size; row++) {
           const rowMask = mask[row]!;
           for (let col = 0; col < size; col++) {
-            const inCross =
-              Math.abs(row - center) <= armThickness || Math.abs(col - center) <= armThickness;
-            const inDiag =
-              Math.abs(row - col) <= armThickness ||
-              Math.abs(row + col - (size - 1)) <= armThickness;
-            const dist = Math.sqrt(Math.pow(row - center, 2) + Math.pow(col - center, 2));
-            const inCore = dist <= coreRadius;
-            rowMask[col] = inCross || inDiag || inCore;
+            const x = norm(col);
+            const y = -norm(row);
+            rowMask[col] = pointInPolygon(x, y);
           }
         }
         return mask;
@@ -123,8 +136,8 @@ export class GridBuilder {
         for (let row = 0; row < size; row++) {
           const rowMask = mask[row]!;
           for (let col = 0; col < size; col++) {
-            const x = norm(col) * 1.2;
-            const y = -norm(row) * 1.1; // flip y and stretch
+            const x = norm(col) * 1.05;
+            const y = -norm(row) * 1.15 + 0.1; // flip y, stretch vertically, and nudge up to deepen the notch
             // (x^2 + y^2 - 1)^3 - x^2 y^3 <= 0 is inside the heart
             const lhs = Math.pow(x * x + y * y - 1, 3) - x * x * Math.pow(y, 3);
             rowMask[col] = lhs <= 0;
