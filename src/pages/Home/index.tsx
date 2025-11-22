@@ -27,7 +27,6 @@ const HomePage: React.FC = () => {
     setDifficulty,
     setPdfTheme,
     generatePuzzle,
-    exportPDF,
   } = usePuzzleStore();
 
   const [inputWords, setInputWords] = useState(words.join('\n'));
@@ -115,24 +114,9 @@ const HomePage: React.FC = () => {
         <div className="flex items-center gap-4">
           <button
             onClick={() => setShowDocs(true)}
-            className="text-sm font-medium text-slate-600 transition-colors hover:text-slate-900"
+            className="inline-flex items-center gap-2 rounded-md bg-gradient-to-r from-slate-900 to-blue-700 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:shadow-md active:scale-95"
           >
-            Documentation
-          </button>
-          <a
-            href={AMAZON_BOOK_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="hidden items-center gap-2 rounded-md bg-gradient-to-r from-amber-400 to-amber-500 px-3 py-2 text-sm font-semibold text-amber-900 shadow-sm transition hover:shadow-md sm:flex"
-          >
-            Kids Book
-          </a>
-          <button
-            onClick={() => exportPDF(true)}
-            disabled={!currentPuzzle}
-            className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-slate-800 hover:shadow-lg active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            Export PDF
+            Instructions
           </button>
         </div>
       </header>
