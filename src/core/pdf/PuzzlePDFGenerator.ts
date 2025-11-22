@@ -282,14 +282,14 @@ export class PuzzlePDFGenerator {
       }
     }
 
-    // Draw hollow ovals around found words
+    // Draw hollow strokes around found words (aligned with word orientation)
     const lineRgb = this.hexToRgb(theme.colors.answerLine);
     doc.setDrawColor(lineRgb[0], lineRgb[1], lineRgb[2]);
-    doc.setLineWidth(Math.max(0.01, cellSizeIn * 0.15));
+    doc.setLineWidth(Math.max(0.01, cellSizeIn * 0.45));
     doc.setLineCap('round');
     doc.setLineJoin('round');
 
-    const drawWordOutline = (startX: number, startY: number, endX: number, endY: number): void => {
+    const drawWordStroke = (startX: number, startY: number, endX: number, endY: number): void => {
       const dx = endX - startX;
       const dy = endY - startY;
       const length = Math.sqrt(dx * dx + dy * dy);
@@ -299,24 +299,14 @@ export class PuzzlePDFGenerator {
 
       const ux = dx / length;
       const uy = dy / length;
-      const perpX = -uy;
-      const perpY = ux;
+      const extend = cellSizeIn * 0.45;
 
-      const extend = cellSizeIn * 0.5;
-      const halfThickness = cellSizeIn * 0.55;
+      const sx = startX - ux * extend;
+      const sy = startY - uy * extend;
+      const ex = endX + ux * extend;
+      const ey = endY + uy * extend;
 
-      const startEdge = { x: startX - ux * extend, y: startY - uy * extend };
-      const endEdge = { x: endX + ux * extend, y: endY + uy * extend };
-
-      const A = { x: startEdge.x + perpX * halfThickness, y: startEdge.y + perpY * halfThickness };
-      const B = { x: endEdge.x + perpX * halfThickness, y: endEdge.y + perpY * halfThickness };
-      const C = { x: endEdge.x - perpX * halfThickness, y: endEdge.y - perpY * halfThickness };
-      const D = { x: startEdge.x - perpX * halfThickness, y: startEdge.y - perpY * halfThickness };
-
-      doc.line(A.x, A.y, B.x, B.y);
-      doc.line(B.x, B.y, C.x, C.y);
-      doc.line(C.x, C.y, D.x, D.y);
-      doc.line(D.x, D.y, A.x, A.y);
+      doc.line(sx, sy, ex, ey);
     };
 
     puzzle.placedWords.forEach((word) => {
@@ -336,7 +326,7 @@ export class PuzzlePDFGenerator {
       const endX = gridX + endPos.col * cellSizeIn + cellSizeIn / 2;
       const endY = gridY + endPos.row * cellSizeIn + cellSizeIn / 2;
 
-      drawWordOutline(startX, startY, endX, endY);
+      drawWordStroke(startX, startY, endX, endY);
     });
 
     // Footer

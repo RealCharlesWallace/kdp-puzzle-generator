@@ -140,7 +140,7 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
         const length = Math.sqrt(dx * dx + dy * dy);
         if (length === 0) {
           const r = cellSize * 0.6;
-          ctx.lineWidth = Math.max(2, cellSize * 0.15);
+          ctx.lineWidth = Math.max(2, cellSize * 0.2);
           ctx.beginPath();
           ctx.arc(sx, sy, r, 0, Math.PI * 2);
           ctx.stroke();
@@ -148,32 +148,16 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
         }
         const ux = dx / length;
         const uy = dy / length;
-        const perpX = -uy;
-        const perpY = ux;
-        const extend = cellSize * 0.5;
-        const halfThickness = cellSize * 0.55;
+        const extend = cellSize * 0.45;
+        const sxExt = sx - ux * extend;
+        const syExt = sy - uy * extend;
+        const exExt = ex + ux * extend;
+        const eyExt = ey + uy * extend;
 
-        const startEdge = { x: sx - ux * extend, y: sy - uy * extend };
-        const endEdge = { x: ex + ux * extend, y: ey + uy * extend };
-
-        const A = {
-          x: startEdge.x + perpX * halfThickness,
-          y: startEdge.y + perpY * halfThickness,
-        };
-        const B = { x: endEdge.x + perpX * halfThickness, y: endEdge.y + perpY * halfThickness };
-        const C = { x: endEdge.x - perpX * halfThickness, y: endEdge.y - perpY * halfThickness };
-        const D = {
-          x: startEdge.x - perpX * halfThickness,
-          y: startEdge.y - perpY * halfThickness,
-        };
-
-        ctx.lineWidth = Math.max(2, cellSize * 0.15);
+        ctx.lineWidth = Math.max(2, cellSize * 0.2);
         ctx.beginPath();
-        ctx.moveTo(A.x, A.y);
-        ctx.lineTo(B.x, B.y);
-        ctx.lineTo(C.x, C.y);
-        ctx.lineTo(D.x, D.y);
-        ctx.closePath();
+        ctx.moveTo(sxExt, syExt);
+        ctx.lineTo(exExt, eyExt);
         ctx.stroke();
       };
 
