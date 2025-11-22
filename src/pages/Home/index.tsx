@@ -313,8 +313,8 @@ const HomePage: React.FC = () => {
 
   const [inputWords, setInputWords] = useState(words.join('\n'));
   const [titleInput, setTitleInput] = useState(title);
-  const [copyCount, setCopyCount] = useState(1);
-  const [randomCount, setRandomCount] = useState(10);
+  const [copyCountInput, setCopyCountInput] = useState('1');
+  const [randomCountInput, setRandomCountInput] = useState('10');
   const [randomTheme, setRandomTheme] = useState('');
   const [randomLoading, setRandomLoading] = useState(false);
   const [showSolution, setShowSolution] = useState(false);
@@ -327,7 +327,7 @@ const HomePage: React.FC = () => {
     const totalLetters = words.reduce((sum, w) => sum + w.replace(/\s+/g, '').length, 0);
     const availableCells = GridBuilder.getAvailableCellCount(config.gridSize, config.shape);
     let suggestedSize: number | null = null;
-    for (let size = config.gridSize; size <= 25; size++) {
+    for (let size = config.gridSize; size <= 50; size++) {
       if (GridBuilder.getAvailableCellCount(size, config.shape) >= totalLetters) {
         suggestedSize = size;
         break;
@@ -383,7 +383,13 @@ const HomePage: React.FC = () => {
 
   const handleRandomWords = async (): Promise<void> => {
     setRandomLoading(true);
-    const requested = Math.max(minWords, Math.min(100, Math.floor(randomCount) || minWords));
+    const parsedRequested = parseInt(randomCountInput || `${minWords}`, 10);
+    const safeRequested = Math.max(
+      minWords,
+      Math.min(100, Number.isFinite(parsedRequested) ? parsedRequested : minWords)
+    );
+    setRandomCountInput(String(safeRequested));
+    const requested = safeRequested;
     const themeTokens = randomTheme
       .toLowerCase()
       .split(/[\s,]+/)
@@ -526,12 +532,12 @@ const HomePage: React.FC = () => {
                 <input
                   type="range"
                   min="10"
-                  max="25"
+                  max="50"
                   value={config.gridSize}
                   onChange={(e) => setGridSize(parseInt(e.target.value))}
                   className="flex-1 cursor-pointer accent-primary-500"
                 />
-                <span className="w-6 text-center font-mono text-sm font-semibold text-primary-700">
+                <span className="w-10 text-center font-mono text-sm font-semibold text-primary-700">
                   {config.gridSize}
                 </span>
               </div>
@@ -634,10 +640,13 @@ const HomePage: React.FC = () => {
                     type="number"
                     min={minWords}
                     max={100}
-                    value={randomCount}
-                    onChange={(e) =>
-                      setRandomCount(Math.max(minWords, Math.min(100, Number(e.target.value))))
-                    }
+                    value={randomCountInput}
+                    onChange={(e) => setRandomCountInput(e.target.value)}
+                    onBlur={() => {
+                      const parsed = parseInt(randomCountInput || `${minWords}`, 10);
+                      const safe = Math.max(minWords, Math.min(100, Number.isFinite(parsed) ? parsed : minWords));
+                      setRandomCountInput(String(safe));
+                    }}
                     className="w-24 rounded border border-slate-200 px-2 py-1 text-sm"
                   />
                 </div>
@@ -671,7 +680,7 @@ const HomePage: React.FC = () => {
               <div className="rounded-lg border border-amber-100 bg-amber-50 p-3 text-xs text-amber-700">
                 {capacityInfo.suggestedSize
                   ? `Your words need at least a ${capacityInfo.suggestedSize}×${capacityInfo.suggestedSize} grid. Increase the grid size or shorten the list.`
-                  : 'Your word list is too large for the maximum grid size (25). Reduce word count or word lengths.'}
+                  : 'Your word list is too large for the maximum grid size (50). Reduce word count or word lengths.'}
               </div>
             )}
             <div className="space-y-3">
@@ -691,13 +700,21 @@ const HomePage: React.FC = () => {
                   type="number"
                   min={1}
                   max={25}
-                  value={copyCount}
-                  onChange={(e) => setCopyCount(Math.max(1, Math.min(25, Number(e.target.value))))}
+                  value={copyCountInput}
+                  onChange={(e) => setCopyCountInput(e.target.value)}
+                  onBlur={() => {
+                    const parsed = parseInt(copyCountInput || '1', 10);
+                    const safe = Math.max(1, Math.min(25, Number.isFinite(parsed) ? parsed : 1));
+                    setCopyCountInput(String(safe));
+                  }}
                   className="w-full rounded border border-slate-200 px-2 py-1 text-sm"
                 />
                 <button
                   onClick={() => {
-                    void exportCopies(copyCount);
+                    const parsed = parseInt(copyCountInput || '1', 10);
+                    const safe = Math.max(1, Math.min(25, Number.isFinite(parsed) ? parsed : 1));
+                    setCopyCountInput(String(safe));
+                    void exportCopies(safe);
                   }}
                   className="w-full rounded-md bg-[#14001b] px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:shadow-md"
                 >

@@ -159,7 +159,7 @@ export const usePuzzleStore = create<PuzzleState>((set, get) => ({
 
     if (totalLetters > availableCells) {
       let suggestedSize: number | null = null;
-      for (let size = config.gridSize + 1; size <= 25; size++) {
+      for (let size = config.gridSize + 1; size <= 50; size++) {
         if (GridBuilder.getAvailableCellCount(size, config.shape) >= totalLetters) {
           suggestedSize = size;
           break;
@@ -168,7 +168,7 @@ export const usePuzzleStore = create<PuzzleState>((set, get) => ({
 
       const needsReduction = suggestedSize === null;
       const message = needsReduction
-        ? 'Your word list is too large for the maximum grid size (25). Reduce word count or word lengths.'
+        ? 'Your word list is too large for the maximum grid size (50). Reduce word count or word lengths.'
         : `Your word list needs at least a ${suggestedSize}×${suggestedSize} grid. Increase grid size or reduce words.`;
 
       set({ error: message });
