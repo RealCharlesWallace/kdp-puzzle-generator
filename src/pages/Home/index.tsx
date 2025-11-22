@@ -779,7 +779,9 @@ const HomePage: React.FC = () => {
                   <div className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-primary-700">
                     New
                   </div>
-                  <h3 className="text-lg font-semibold text-[#14001b]">I Like to Color &amp; Draw</h3>
+                  <h3 className="text-lg font-semibold text-[#14001b]">
+                    I Like to Color &amp; Draw
+                  </h3>
                   <p className="text-sm font-medium text-[#2a0b2e]">
                     Whimsical coloring and doodling book for ages 7–12 by Clara Wallace.
                   </p>
@@ -787,8 +789,9 @@ const HomePage: React.FC = () => {
                     Part of the Hello, Imagination! Series · Screen-free, confidence-building fun
                   </p>
                   <p className="text-xs text-[#3e1b41] md:max-w-xl">
-                    Includes hand-drawn “Journal Girls,” doodle prompts, a mini gallery, marker-friendly backs,
-                    and plenty of space to explore creativity—no pressure for perfection.
+                    Includes hand-drawn “Journal Girls,” doodle prompts, a mini gallery,
+                    marker-friendly backs, and plenty of space to explore creativity—no pressure for
+                    perfection.
                   </p>
                 </div>
               </div>
@@ -827,13 +830,18 @@ const HomePage: React.FC = () => {
                   <div className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-primary-700">
                     New
                   </div>
-                  <h3 className="text-lg font-semibold text-[#14001b]">I Like to Color &amp; Draw</h3>
+                  <h3 className="text-lg font-semibold text-[#14001b]">
+                    I Like to Color &amp; Draw
+                  </h3>
                   <p className="text-sm font-medium text-[#2a0b2e]">
                     Whimsical Imagination Art Journal for Kids, Tweens, and Teens
                   </p>
-                  <p className="text-xs text-[#3e1b41]">Part of Hello Imagination Creative Activity Books</p>
+                  <p className="text-xs text-[#3e1b41]">
+                    Part of Hello Imagination Creative Activity Books
+                  </p>
                   <p className="text-xs text-[#3e1b41] md:max-w-xl">
-                    Doodle prompts, coloring pages, and playful drawing starters to spark creativity anytime.
+                    Doodle prompts, coloring pages, and playful drawing starters to spark creativity
+                    anytime.
                   </p>
                 </div>
               </div>
@@ -882,7 +890,8 @@ const HomePage: React.FC = () => {
                     Part of Hello Imagination Creative Activity Books · 4.6★ (14 reviews)
                   </p>
                   <p className="text-xs text-[#3e1b41] md:max-w-xl">
-                    Ready-to-cut images, journaling prompts, and gluebooking fun for kids, tweens, teens, and adults.
+                    Ready-to-cut images, journaling prompts, and gluebooking fun for kids, tweens,
+                    teens, and adults.
                   </p>
                 </div>
               </div>

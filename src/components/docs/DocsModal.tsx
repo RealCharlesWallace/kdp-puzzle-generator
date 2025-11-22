@@ -229,7 +229,8 @@ export const DocsModal: React.FC<DocsModalProps> = ({ isOpen, onClose }) => {
                 <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
                   <h4 className="mb-1 font-semibold text-amber-900">Preview cut off?</h4>
                   <p className="text-sm text-amber-800">
-                    The canvas auto-scales; rotate your device or ensure the preview area has height.
+                    The canvas auto-scales; rotate your device or ensure the preview area has
+                    height.
                   </p>
                 </div>
               </div>
