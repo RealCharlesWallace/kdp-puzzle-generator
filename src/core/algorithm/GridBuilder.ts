@@ -97,13 +97,14 @@ export class GridBuilder {
         const outerRadius = 1;
         const innerRadius = 0.45;
         const sector = (2 * Math.PI) / 5;
+        const rotationOffset = -Math.PI / 10; // rotate ~18° counter-clockwise so a point faces straight up
 
         for (let row = 0; row < size; row++) {
           const rowMask = mask[row]!;
           for (let col = 0; col < size; col++) {
             const x = norm(col);
             const y = -norm(row);
-            const angle = Math.atan2(y, x) + Math.PI * 2;
+            const angle = Math.atan2(y, x) + Math.PI * 2 + rotationOffset;
             const dist = Math.sqrt(x * x + y * y);
 
             // Find nearest outer point and interpolate radius toward inner point based on angular distance
