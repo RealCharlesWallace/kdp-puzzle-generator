@@ -288,7 +288,7 @@ const HomePage: React.FC = () => {
               >
                 {isGenerating ? 'Generating...' : 'Generate Puzzle'}
               </button>
-              <div className="flex flex-col gap-3 rounded-lg border border-slate-200 bg-white p-3 shadow-sm sm:flex-row sm:items-center">
+              <div className="grid grid-cols-1 gap-3 rounded-lg border border-slate-200 bg-white p-3 shadow-sm sm:grid-cols-[auto_auto_minmax(0,1fr)] sm:items-center">
                 <label className="text-sm font-medium text-slate-700" htmlFor="copy-count">
                   Copies
                 </label>
@@ -305,7 +305,7 @@ const HomePage: React.FC = () => {
                   onClick={() => {
                     void exportCopies(copyCount);
                   }}
-                  className="w-full rounded-md bg-slate-900 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:shadow-md sm:ml-auto sm:w-auto"
+                  className="w-full justify-self-start rounded-md bg-slate-900 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:shadow-md sm:w-auto sm:justify-self-end"
                 >
                   Export PDFs
                 </button>
