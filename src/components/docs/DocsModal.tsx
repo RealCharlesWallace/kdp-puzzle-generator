@@ -76,10 +76,10 @@ export const DocsModal: React.FC<DocsModalProps> = ({ isOpen, onClose }) => {
 
               <div className="space-y-4">
                 <div className="rounded-lg bg-slate-50 p-4">
-                  <h4 className="mb-2 font-semibold text-slate-900">Grid Size (10-25)</h4>
+                  <h4 className="mb-2 font-semibold text-slate-900">Grid Size (10-50)</h4>
                   <p className="text-sm text-slate-600">
-                    Larger grids fit longer lists; 15–20 works well for most. The app warns if words
-                    won&apos;t fit.
+                    Larger grids fit longer lists; 15–20 works well for most. You can go up to 50 if
+                    you need more space—the app warns if words won&apos;t fit.
                   </p>
                 </div>
 
