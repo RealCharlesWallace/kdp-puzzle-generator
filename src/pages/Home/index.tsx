@@ -9,6 +9,156 @@ import { GridBuilder } from '@/core/algorithm/GridBuilder';
 const TOAST_DURATION = 2500;
 const AMAZON_BOOK_URL =
   'https://www.amazon.com/dp/B0DKG36F8W?ref_=cm_sw_r_cp_ud_dp_08S189X0VN54S6HVCD99&starsLeft=1&skipTwisterOG=1';
+const RANDOM_WORD_POOL = [
+  'puzzle',
+  'adventure',
+  'rocket',
+  'galaxy',
+  'rainbow',
+  'butterfly',
+  'mountain',
+  'forest',
+  'sunshine',
+  'ocean',
+  'treasure',
+  'island',
+  'dragon',
+  'castle',
+  'wizard',
+  'unicorn',
+  'robot',
+  'pirate',
+  'journey',
+  'whisper',
+  'starlight',
+  'moonbeam',
+  'firefly',
+  'blossom',
+  'marble',
+  'lantern',
+  'compass',
+  'crystal',
+  'feather',
+  'canyon',
+  'meadow',
+  'carnival',
+  'kite',
+  'aurora',
+  'comet',
+  'nebula',
+  'asteroid',
+  'planet',
+  'saturn',
+  'mercury',
+  'venus',
+  'jupiter',
+  'earth',
+  'eclipse',
+  'orbit',
+  'galaxy',
+  'meteor',
+  'starfish',
+  'seashell',
+  'harbor',
+  'sailboat',
+  'lighthouse',
+  'coral',
+  'lagoon',
+  'penguin',
+  'dolphin',
+  'otter',
+  'panda',
+  'giraffe',
+  'kangaroo',
+  'koala',
+  'whale',
+  'turtle',
+  'flamingo',
+  'peacock',
+  'parrot',
+  'sparrow',
+  'pumpkin',
+  'harvest',
+  'orchard',
+  'maple',
+  'acorn',
+  'cinnamon',
+  'vanilla',
+  'marshmallow',
+  'chocolate',
+  'caramel',
+  'cookie',
+  'brownie',
+  'cupcake',
+  'pancake',
+  'waffle',
+  'noodle',
+  'dumpling',
+  'pretzel',
+  'bagel',
+  'sandwich',
+  'garden',
+  'blossom',
+  'petal',
+  'cactus',
+  'succulent',
+  'lavender',
+  'daisy',
+  'violet',
+  'tulip',
+  'orchid',
+  'sunflower',
+  'rainstorm',
+  'thunder',
+  'lightning',
+  'monsoon',
+  'breeze',
+  'storm',
+  'frost',
+  'glacier',
+  'avalanche',
+  'icicle',
+  'snowflake',
+  'blizzard',
+  'pepper',
+  'saffron',
+  'ginger',
+  'paprika',
+  'coconut',
+  'pineapple',
+  'mango',
+  'banana',
+  'strawberry',
+  'blueberry',
+  'raspberry',
+  'peach',
+  'apricot',
+  'almond',
+  'walnut',
+  'hazelnut',
+  'pecan',
+  'macadamia',
+  'travel',
+  'voyage',
+  'expedition',
+  'trail',
+  'summit',
+  'cavern',
+  'valley',
+  'river',
+  'waterfall',
+  'grotto',
+  'miracle',
+  'legend',
+  'myth',
+  'fable',
+  'story',
+  'chapter',
+  'scroll',
+  'script',
+  'poem',
+  'riddle',
+];
 
 const HomePage: React.FC = () => {
   const {
@@ -32,6 +182,7 @@ const HomePage: React.FC = () => {
   const [inputWords, setInputWords] = useState(words.join('\n'));
   const [titleInput, setTitleInput] = useState(title);
   const [copyCount, setCopyCount] = useState(1);
+  const [randomCount, setRandomCount] = useState(10);
   const [showSolution, setShowSolution] = useState(false);
   const [showDocs, setShowDocs] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -94,6 +245,23 @@ const HomePage: React.FC = () => {
       return;
     }
     void generatePuzzle();
+  };
+
+  const handleRandomWords = (): void => {
+    const pool = [...RANDOM_WORD_POOL];
+    const requested = Math.max(minWords, Math.min(100, Math.floor(randomCount) || minWords));
+    const result: string[] = [];
+
+    while (result.length < requested && pool.length > 0) {
+      const index = Math.floor(Math.random() * pool.length);
+      const [word] = pool.splice(index, 1);
+      if (word) {
+        result.push(word.toUpperCase());
+      }
+    }
+
+    setWords(result);
+    setInputWords(result.join('\n'));
   };
 
   return (
@@ -260,6 +428,28 @@ const HomePage: React.FC = () => {
               <span className="rounded-full bg-primary-100 px-2 py-0.5 text-xs font-medium text-primary-700">
                 {words.length}
               </span>
+            </div>
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
+              <label className="text-sm font-medium text-slate-700" htmlFor="random-count">
+                Randomly make
+              </label>
+              <div className="flex gap-2 sm:justify-end">
+                <input
+                  id="random-count"
+                  type="number"
+                  min={minWords}
+                  max={100}
+                  value={randomCount}
+                  onChange={(e) => setRandomCount(Math.max(minWords, Math.min(100, Number(e.target.value))))}
+                  className="w-24 rounded border border-slate-200 px-2 py-1 text-sm"
+                />
+                <button
+                  onClick={handleRandomWords}
+                  className="rounded-md bg-gradient-to-r from-primary-600 via-primary-500 to-secondary-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:shadow-md"
+                >
+                  Make
+                </button>
+              </div>
             </div>
             <textarea
               value={inputWords}
