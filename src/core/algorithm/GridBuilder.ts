@@ -92,40 +92,30 @@ export class GridBuilder {
       }
 
       case 'star': {
-        // 5-point star using point-in-polygon against a decagon (outer + inner points)
+        // 5-point star using radial interpolation between outer and inner points
         const norm = (val: number): number => (2 * val) / (size - 1) - 1; // map 0..size-1 to -1..1
         const outerRadius = 1;
         const innerRadius = 0.45;
-        const points: Array<{ x: number; y: number }> = Array.from({ length: 10 }, (_, i) => {
-          const angle = -Math.PI / 2 + (i * Math.PI) / 5; // start at top, go clockwise
-          const radius = i % 2 === 0 ? outerRadius : innerRadius;
-          return {
-            x: radius * Math.cos(angle),
-            y: radius * Math.sin(angle),
-          };
-        });
-
-        const pointInPolygon = (x: number, y: number): boolean => {
-          let inside = false;
-          for (let i = 0, j = points.length - 1; i < points.length; j = i++) {
-            const xi = points[i]!.x;
-            const yi = points[i]!.y;
-            const xj = points[j]!.x;
-            const yj = points[j]!.y;
-            const intersect =
-              yi > y !== yj > y &&
-              x < ((xj - xi) * (y - yi)) / (yj - yi + Number.EPSILON) + xi;
-            if (intersect) inside = !inside;
-          }
-          return inside;
-        };
+        const sector = (2 * Math.PI) / 5;
 
         for (let row = 0; row < size; row++) {
           const rowMask = mask[row]!;
           for (let col = 0; col < size; col++) {
             const x = norm(col);
             const y = -norm(row);
-            rowMask[col] = pointInPolygon(x, y);
+            const angle = Math.atan2(y, x) + Math.PI * 2;
+            const dist = Math.sqrt(x * x + y * y);
+
+            // Find nearest outer point and interpolate radius toward inner point based on angular distance
+            const nearestOuter = Math.round(angle / sector) * sector;
+            const angularDiff = Math.min(
+              Math.abs(angle - nearestOuter),
+              sector - Math.abs(angle - nearestOuter)
+            );
+            const t = Math.min(1, angularDiff / (sector / 2)); // 0 at tip, 1 at valley
+            const allowedRadius = outerRadius - (outerRadius - innerRadius) * t;
+
+            rowMask[col] = dist <= allowedRadius;
           }
         }
         return mask;
