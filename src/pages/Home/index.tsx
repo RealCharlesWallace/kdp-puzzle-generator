@@ -288,7 +288,7 @@ const HomePage: React.FC = () => {
               >
                 {isGenerating ? 'Generating...' : 'Generate Puzzle'}
               </button>
-              <div className="grid w-full grid-cols-1 gap-3 rounded-lg border border-slate-200 bg-white p-3 shadow-sm sm:grid-cols-[auto_minmax(0,1fr)] sm:grid-rows-2 sm:items-center">
+              <div className="space-y-3 rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
                 <label className="text-sm font-medium text-slate-700" htmlFor="copy-count">
                   Copies
                 </label>
@@ -299,18 +299,16 @@ const HomePage: React.FC = () => {
                   max={25}
                   value={copyCount}
                   onChange={(e) => setCopyCount(Math.max(1, Math.min(25, Number(e.target.value))))}
-                  className="w-20 rounded border border-slate-200 px-2 py-1 text-sm"
+                  className="w-full rounded border border-slate-200 px-2 py-1 text-sm"
                 />
-                <div className="sm:col-span-2">
-                  <button
-                    onClick={() => {
-                      void exportCopies(copyCount);
-                    }}
-                    className="w-full rounded-md bg-[#14001b] px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:shadow-md"
-                  >
-                    Export PDFs
-                  </button>
-                </div>
+                <button
+                  onClick={() => {
+                    void exportCopies(copyCount);
+                  }}
+                  className="w-full rounded-md bg-[#14001b] px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:shadow-md"
+                >
+                  Export PDFs
+                </button>
               </div>
             </div>
           </div>
