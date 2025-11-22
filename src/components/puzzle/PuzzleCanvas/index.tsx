@@ -124,7 +124,7 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
     const letterScale = Math.max(0.5, Math.min(theme.style.gridLetterSize / 100, 0.8));
     const fontSize = Math.max(12, cellSize * letterScale);
     const monoFont = `"SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`;
-    ctx.font = `${fontSize}px ${monoFont}`;
+    ctx.font = `600 ${fontSize}px ${monoFont}`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
@@ -275,6 +275,10 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
     ctx.font = `bold ${fontSize}px ${monoFont}`;
     ctx.textBaseline = 'middle';
     letterPositions.forEach(({ x, y, letter }) => {
+      const strokeWidth = Math.max(0.5, cellSize * 0.05);
+      ctx.lineWidth = strokeWidth;
+      ctx.strokeStyle = theme.colors.gridBackground;
+      ctx.strokeText(letter, x, y);
       ctx.fillText(letter, x, y);
     });
   }, [grid, placedWords, showSolution, theme, dimensions]);
