@@ -222,11 +222,6 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
           ctx.fillStyle = theme.colors.cellBackground;
         }
 
-        // Highlight if part of word and showing solution
-        if (showSolution && cell.isPartOfWord) {
-          ctx.fillStyle = theme.colors.answerHighlight;
-        }
-
         // Draw cell with rounded corners if specified
         const cellPadding = Math.max(1, theme.style.cellPadding);
         if (theme.style.cornerRadius > 0) {

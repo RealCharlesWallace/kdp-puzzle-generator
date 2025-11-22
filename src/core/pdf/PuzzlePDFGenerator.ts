@@ -244,7 +244,6 @@ export class PuzzlePDFGenerator {
     doc.setDrawColor(borderRgb[0], borderRgb[1], borderRgb[2]);
     doc.setLineWidth(lineWidth);
 
-    const highlightRgb = this.hexToRgb(theme.colors.answerHighlight);
     const letterRgb = this.hexToRgb(theme.colors.letterColor);
     const cellBg = this.hexToRgb(theme.colors.cellBackground);
     const cellBgAlt = this.hexToRgb(theme.colors.cellBackgroundAlt);
@@ -261,15 +260,10 @@ export class PuzzlePDFGenerator {
         const y = gridY + row * cellSizeIn;
 
         // Highlight cells that are part of words
-        if (cell.isPartOfWord) {
-          doc.setFillColor(highlightRgb[0], highlightRgb[1], highlightRgb[2]);
-          doc.rect(x, y, cellSizeIn, cellSizeIn, 'FD');
-        } else {
-          const isAlt = (row + col) % 2 === 0;
-          const fill = theme.style.useAlternatingCells ? (isAlt ? cellBg : cellBgAlt) : cellBg;
-          doc.setFillColor(fill[0], fill[1], fill[2]);
-          doc.rect(x, y, cellSizeIn, cellSizeIn, 'FD');
-        }
+        const isAlt = (row + col) % 2 === 0;
+        const fill = theme.style.useAlternatingCells ? (isAlt ? cellBg : cellBgAlt) : cellBg;
+        doc.setFillColor(fill[0], fill[1], fill[2]);
+        doc.rect(x, y, cellSizeIn, cellSizeIn, 'FD');
 
         // Draw letter
         if (cell.letter) {
