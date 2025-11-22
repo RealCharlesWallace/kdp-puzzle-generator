@@ -163,7 +163,7 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
         const exExt = ex + ux * extend;
         const eyExt = ey + uy * extend;
 
-        const outerWidth = Math.max(2, cellSize * 0.9);
+        const outerWidth = Math.max(2, cellSize * 0.6);
         const innerWidth = outerWidth * 0.5;
         ctx.lineWidth = outerWidth;
         ctx.beginPath();
