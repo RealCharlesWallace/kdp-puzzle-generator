@@ -247,8 +247,9 @@ export class PuzzlePDFGenerator {
     const letterRgb = this.hexToRgb(theme.colors.letterColor);
     const cellBg = this.hexToRgb(theme.colors.cellBackground);
     const cellBgAlt = this.hexToRgb(theme.colors.cellBackgroundAlt);
+    const letterPositions: Array<{ x: number; y: number; letter: string }> = [];
 
-    // First pass: draw all cells
+    // First pass: draw all cells and capture letter positions
     for (let row = 0; row < puzzle.grid.size; row++) {
       for (let col = 0; col < puzzle.grid.size; col++) {
         const cell = puzzle.grid.cells[row]?.[col];
@@ -259,18 +260,16 @@ export class PuzzlePDFGenerator {
         const x = gridX + col * cellSizeIn;
         const y = gridY + row * cellSizeIn;
 
-        // Highlight cells that are part of words
         const isAlt = (row + col) % 2 === 0;
         const fill = theme.style.useAlternatingCells ? (isAlt ? cellBg : cellBgAlt) : cellBg;
         doc.setFillColor(fill[0], fill[1], fill[2]);
         doc.rect(x, y, cellSizeIn, cellSizeIn, 'FD');
 
-        // Draw letter
         if (cell.letter) {
-          doc.setTextColor(letterRgb[0], letterRgb[1], letterRgb[2]);
-          doc.text(cell.letter, x + cellSizeIn / 2, y + cellSizeIn / 2, {
-            align: 'center',
-            baseline: 'middle',
+          letterPositions.push({
+            x: x + cellSizeIn / 2,
+            y: y + cellSizeIn / 2,
+            letter: cell.letter,
           });
         }
       }
@@ -332,6 +331,12 @@ export class PuzzlePDFGenerator {
       const endY = gridY + endPos.row * cellSizeIn + cellSizeIn / 2;
 
       drawWordStroke(startX, startY, endX, endY);
+    });
+
+    // Draw letters on top of strokes for clarity
+    letterPositions.forEach((pos) => {
+      doc.setTextColor(letterRgb[0], letterRgb[1], letterRgb[2]);
+      doc.text(pos.letter, pos.x, pos.y, { align: 'center', baseline: 'middle' });
     });
 
     // Footer
