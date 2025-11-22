@@ -124,7 +124,7 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
     const letterScale = Math.max(0.5, Math.min(theme.style.gridLetterSize / 100, 0.8));
     const fontSize = Math.max(12, cellSize * letterScale);
     const monoFont = `"SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`;
-    ctx.font = `bold ${fontSize}px ${monoFont}`;
+    ctx.font = `${fontSize}px ${monoFont}`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
