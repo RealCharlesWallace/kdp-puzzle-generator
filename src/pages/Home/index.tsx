@@ -417,13 +417,6 @@ const HomePage: React.FC = () => {
                 </div>
               </div>
               <div className="flex items-center gap-4 md:justify-end">
-                <div className="hidden h-14 w-14 shrink-0 overflow-hidden rounded-full border border-amber-100 shadow-sm md:block">
-                  <img
-                    src="/assets/images/clara_wallace_photo.jpg"
-                    alt="Clara Wallace author"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
                 <div className="h-32 w-24 shrink-0 overflow-hidden rounded-xl border border-amber-100 shadow-sm sm:hidden">
                   <img
                     src={`${import.meta.env.BASE_URL}book-cover.jpg`}
