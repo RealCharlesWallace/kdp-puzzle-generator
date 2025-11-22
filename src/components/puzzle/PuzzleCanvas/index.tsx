@@ -70,7 +70,8 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
       return;
     }
 
-    const padding = 20;
+    const baseSize = Math.min(dimensions.width, dimensions.height || dimensions.width);
+    const padding = Math.max(8, Math.min(16, Math.floor(baseSize * 0.04)));
     const availableWidth = Math.max(0, dimensions.width - padding * 2);
     const availableHeight = Math.max(0, dimensions.height - padding * 2);
     const maxDrawableSize = Math.min(availableWidth, availableHeight);
@@ -266,7 +267,7 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
   return (
     <div
       ref={containerRef}
-      className="flex h-full w-full items-center justify-center overflow-hidden rounded-xl p-6 shadow-lg transition-all duration-300"
+      className="flex h-full w-full items-center justify-center overflow-hidden rounded-xl p-3 shadow-lg transition-all duration-300 sm:p-6"
       style={{
         width: '100%',
         height: '100%',
