@@ -151,8 +151,9 @@ export class PuzzlePDFGenerator {
         // Draw letter
         if (cell.letter) {
           doc.setTextColor(letterRgb[0], letterRgb[1], letterRgb[2]);
-          doc.text(cell.letter, x + cellSizeIn / 2, y + cellSizeIn / 2 + cellSizeIn * 0.02, {
+          doc.text(cell.letter, x + cellSizeIn / 2, y + cellSizeIn / 2, {
             align: 'center',
+            baseline: 'middle',
           });
         }
       }
@@ -269,17 +270,18 @@ export class PuzzlePDFGenerator {
         // Draw letter
         if (cell.letter) {
           doc.setTextColor(letterRgb[0], letterRgb[1], letterRgb[2]);
-          doc.text(cell.letter, x + cellSizeIn / 2, y + cellSizeIn / 2 + cellSizeIn * 0.02, {
+          doc.text(cell.letter, x + cellSizeIn / 2, y + cellSizeIn / 2, {
             align: 'center',
+            baseline: 'middle',
           });
         }
       }
     }
 
-    // Draw lines through found words
+    // Draw hollow ovals around found words
     const lineRgb = this.hexToRgb(theme.colors.answerLine);
     doc.setDrawColor(lineRgb[0], lineRgb[1], lineRgb[2]);
-    doc.setLineWidth(Math.max(0.01, cellSizeIn * 0.3));
+    doc.setLineWidth(Math.max(0.01, cellSizeIn * 0.12));
     doc.setLineCap('round');
 
     puzzle.placedWords.forEach((word) => {
@@ -299,7 +301,17 @@ export class PuzzlePDFGenerator {
       const endX = gridX + endPos.col * cellSizeIn + cellSizeIn / 2;
       const endY = gridY + endPos.row * cellSizeIn + cellSizeIn / 2;
 
-      doc.line(startX, startY, endX, endY);
+      const centerX = (startX + endX) / 2;
+      const centerY = (startY + endY) / 2;
+      const dx = endX - startX;
+      const dy = endY - startY;
+      const length = Math.sqrt(dx * dx + dy * dy);
+      const angle = Math.atan2(dy, dx);
+
+      const radiusX = length / 2 + cellSizeIn * 0.35;
+      const radiusY = cellSizeIn * 0.7;
+
+      doc.ellipse(centerX, centerY, radiusX, radiusY, 'S', angle);
     });
 
     // Footer
