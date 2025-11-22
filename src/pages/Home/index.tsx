@@ -7,6 +7,8 @@ import { getAllThemes, getTheme } from '@/config/themes';
 import { GridBuilder } from '@/core/algorithm/GridBuilder';
 
 const TOAST_DURATION = 2500;
+const AMAZON_BOOK_URL =
+  'https://www.amazon.com/dp/B0DKG36F8W?ref_=cm_sw_r_cp_ud_dp_08S189X0VN54S6HVCD99&starsLeft=1&skipTwisterOG=1';
 
 const HomePage: React.FC = () => {
   const {
@@ -118,7 +120,7 @@ const HomePage: React.FC = () => {
             Documentation
           </button>
           <a
-            href="https://www.amazon.com/dp/B0DKG36F8W?ref_=cm_sw_r_cp_ud_dp_08S189X0VN54S6HVCD99&starsLeft=1&skipTwisterOG=1"
+            href={AMAZON_BOOK_URL}
             target="_blank"
             rel="noreferrer"
             className="hidden items-center gap-2 rounded-md bg-gradient-to-r from-amber-400 to-amber-500 px-3 py-2 text-sm font-semibold text-amber-900 shadow-sm transition hover:shadow-md sm:flex"
@@ -379,7 +381,13 @@ const HomePage: React.FC = () => {
 
       <footer className="px-4 pb-10 sm:px-6">
         <div className="container mx-auto">
-          <div className="mt-6 rounded-2xl border border-amber-100 bg-gradient-to-r from-amber-50 via-rose-50 to-sky-50 p-6 shadow-sm md:p-8">
+          <a
+            href={AMAZON_BOOK_URL}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="View I Like to Cut & Paste Stuff on Amazon"
+            className="mt-6 block rounded-2xl border border-amber-100 bg-gradient-to-r from-amber-50 via-rose-50 to-sky-50 p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/60 focus-visible:ring-offset-2 md:p-8"
+          >
             <div className="grid gap-6 md:grid-cols-[1.1fr_0.9fr] md:items-center">
               <div className="flex gap-4">
                 <div className="hidden h-32 w-24 shrink-0 overflow-hidden rounded-xl border border-amber-100 shadow-sm sm:block">
@@ -423,18 +431,13 @@ const HomePage: React.FC = () => {
                     className="h-full w-full object-cover"
                   />
                 </div>
-                <a
-                  href="https://www.amazon.com/dp/B0DKG36F8W?ref_=cm_sw_r_cp_ud_dp_08S189X0VN54S6HVCD99&starsLeft=1&skipTwisterOG=1"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 px-4 py-3 text-sm font-semibold text-amber-900 shadow-sm transition hover:shadow"
-                >
-                  View on Amazon
+                <div className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 px-4 py-3 text-sm font-semibold text-amber-900 shadow-sm">
+                  <span>View on Amazon</span>
                   <span aria-hidden>↗</span>
-                </a>
+                </div>
               </div>
             </div>
-          </div>
+          </a>
         </div>
       </footer>
 
