@@ -128,76 +128,7 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
-    // Draw solution outlines under letters for clarity
-    if (showSolution) {
-      ctx.save();
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-      ctx.shadowColor = 'transparent';
-      ctx.shadowBlur = 0;
-      const outerStroke = `${theme.colors.answerLine}CC`;
-      const innerStroke = theme.colors.gridBackground;
-      const outline = (sx: number, sy: number, ex: number, ey: number): void => {
-        const dx = ex - sx;
-        const dy = ey - sy;
-        const length = Math.sqrt(dx * dx + dy * dy);
-        if (length === 0) {
-          const r = cellSize * 0.6;
-          const outerWidth = Math.max(2, cellSize * 0.9);
-          const innerWidth = outerWidth * 0.5;
-          ctx.lineWidth = outerWidth;
-          ctx.beginPath();
-          ctx.arc(sx, sy, r, 0, Math.PI * 2);
-          ctx.strokeStyle = outerStroke;
-          ctx.stroke();
-          ctx.lineWidth = innerWidth;
-          ctx.strokeStyle = innerStroke;
-          ctx.stroke();
-          return;
-        }
-        const ux = dx / length;
-        const uy = dy / length;
-        const extend = cellSize * 0.45;
-        const sxExt = sx - ux * extend;
-        const syExt = sy - uy * extend;
-        const exExt = ex + ux * extend;
-        const eyExt = ey + uy * extend;
-
-        const outerWidth = Math.max(2, cellSize * 0.6);
-        const innerWidth = outerWidth * 0.5;
-        ctx.lineWidth = outerWidth;
-        ctx.beginPath();
-        ctx.moveTo(sxExt, syExt);
-        ctx.lineTo(exExt, eyExt);
-        ctx.strokeStyle = outerStroke;
-        ctx.stroke();
-        ctx.lineWidth = innerWidth;
-        ctx.strokeStyle = innerStroke;
-        ctx.stroke();
-      };
-
-      placedWords.forEach((word) => {
-        if (word.positions.length === 0) {
-          return;
-        }
-
-        const startPos = word.positions[0];
-        const endPos = word.positions[word.positions.length - 1];
-
-        if (!startPos || !endPos) {
-          return;
-        }
-
-        const startX = padding + startPos.col * cellSize + cellSize / 2;
-        const startY = padding + startPos.row * cellSize + cellSize / 2;
-        const endX = padding + endPos.col * cellSize + cellSize / 2;
-        const endY = padding + endPos.row * cellSize + cellSize / 2;
-
-        outline(startX, startY, endX, endY);
-      });
-
-      ctx.restore();
-    }
+    const letterPositions: Array<{ x: number; y: number; letter: string }> = [];
 
     grid.cells.forEach((row, rowIndex) => {
       row.forEach((cell, colIndex) => {
@@ -257,20 +188,95 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
 
         // Draw letter
         if (cell.letter) {
-          ctx.shadowColor = 'transparent';
-          ctx.shadowBlur = 0;
-          ctx.fillStyle = theme.colors.letterColor;
-          ctx.font = `bold ${fontSize}px ${monoFont}`;
-          ctx.textBaseline = 'middle';
-          const centerX = x + cellSize / 2;
-          const centerY = y + cellSize / 2;
-          ctx.fillText(cell.letter, centerX, centerY);
+          letterPositions.push({
+            x: x + cellSize / 2,
+            y: y + cellSize / 2,
+            letter: cell.letter,
+          });
         }
       });
     });
 
-    // Draw solution lines if enabled
-    // (Lines are now drawn beneath letters above)
+    // Draw solution outlines on top of cells but under letters
+    if (showSolution) {
+      ctx.save();
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.shadowColor = 'transparent';
+      ctx.shadowBlur = 0;
+      const outerStroke = `${theme.colors.answerLine}CC`;
+      const innerStroke = theme.colors.gridBackground;
+      const outline = (sx: number, sy: number, ex: number, ey: number): void => {
+        const dx = ex - sx;
+        const dy = ey - sy;
+        const length = Math.sqrt(dx * dx + dy * dy);
+        if (length === 0) {
+          const r = cellSize * 0.6;
+          const outerWidth = Math.max(2, cellSize * 0.6);
+          const innerWidth = outerWidth * 0.5;
+          ctx.lineWidth = outerWidth;
+          ctx.beginPath();
+          ctx.arc(sx, sy, r, 0, Math.PI * 2);
+          ctx.strokeStyle = outerStroke;
+          ctx.stroke();
+          ctx.lineWidth = innerWidth;
+          ctx.strokeStyle = innerStroke;
+          ctx.stroke();
+          return;
+        }
+        const ux = dx / length;
+        const uy = dy / length;
+        const extend = cellSize * 0.45;
+        const sxExt = sx - ux * extend;
+        const syExt = sy - uy * extend;
+        const exExt = ex + ux * extend;
+        const eyExt = ey + uy * extend;
+
+        const outerWidth = Math.max(2, cellSize * 0.6);
+        const innerWidth = outerWidth * 0.5;
+        ctx.lineWidth = outerWidth;
+        ctx.beginPath();
+        ctx.moveTo(sxExt, syExt);
+        ctx.lineTo(exExt, eyExt);
+        ctx.strokeStyle = outerStroke;
+        ctx.stroke();
+        ctx.lineWidth = innerWidth;
+        ctx.strokeStyle = innerStroke;
+        ctx.stroke();
+      };
+
+      placedWords.forEach((word) => {
+        if (word.positions.length === 0) {
+          return;
+        }
+
+        const startPos = word.positions[0];
+        const endPos = word.positions[word.positions.length - 1];
+
+        if (!startPos || !endPos) {
+          return;
+        }
+
+        const startX = padding + startPos.col * cellSize + cellSize / 2;
+        const startY = padding + startPos.row * cellSize + cellSize / 2;
+        const endX = padding + endPos.col * cellSize + cellSize / 2;
+        const endY = padding + endPos.row * cellSize + cellSize / 2;
+
+        outline(startX, startY, endX, endY);
+      });
+
+      ctx.restore();
+    }
+
+    // Draw letters last to sit above outlines
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = theme.colors.letterColor;
+    ctx.font = `bold ${fontSize}px ${monoFont}`;
+    ctx.textBaseline = 'middle';
+    letterPositions.forEach(({ x, y, letter }) => {
+      ctx.fillText(letter, x, y);
+    });
   }, [grid, placedWords, showSolution, theme, dimensions]);
 
   return (
