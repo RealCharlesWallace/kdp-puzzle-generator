@@ -134,12 +134,7 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
       ctx.shadowColor = 'transparent';
       ctx.shadowBlur = 0;
       ctx.strokeStyle = `${theme.colors.answerLine}CC`;
-      const outline = (
-        sx: number,
-        sy: number,
-        ex: number,
-        ey: number
-      ): void => {
+      const outline = (sx: number, sy: number, ex: number, ey: number): void => {
         const dx = ex - sx;
         const dy = ey - sy;
         const length = Math.sqrt(dx * dx + dy * dy);
@@ -161,10 +156,16 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
         const startEdge = { x: sx - ux * extend, y: sy - uy * extend };
         const endEdge = { x: ex + ux * extend, y: ey + uy * extend };
 
-        const A = { x: startEdge.x + perpX * halfThickness, y: startEdge.y + perpY * halfThickness };
+        const A = {
+          x: startEdge.x + perpX * halfThickness,
+          y: startEdge.y + perpY * halfThickness,
+        };
         const B = { x: endEdge.x + perpX * halfThickness, y: endEdge.y + perpY * halfThickness };
         const C = { x: endEdge.x - perpX * halfThickness, y: endEdge.y - perpY * halfThickness };
-        const D = { x: startEdge.x - perpX * halfThickness, y: startEdge.y - perpY * halfThickness };
+        const D = {
+          x: startEdge.x - perpX * halfThickness,
+          y: startEdge.y - perpY * halfThickness,
+        };
 
         ctx.lineWidth = Math.max(2, cellSize * 0.15);
         ctx.beginPath();
