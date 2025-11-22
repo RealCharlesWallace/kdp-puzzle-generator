@@ -288,7 +288,7 @@ const HomePage: React.FC = () => {
               >
                 {isGenerating ? 'Generating...' : 'Generate Puzzle'}
               </button>
-              <div className="flex flex-wrap items-center gap-3 rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
+              <div className="flex flex-col gap-3 rounded-lg border border-slate-200 bg-white p-3 shadow-sm sm:flex-row sm:items-center">
                 <label className="text-sm font-medium text-slate-700" htmlFor="copy-count">
                   Copies
                 </label>
