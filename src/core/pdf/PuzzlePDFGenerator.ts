@@ -311,7 +311,11 @@ export class PuzzlePDFGenerator {
       const radiusX = length / 2 + cellSizeIn * 0.35;
       const radiusY = cellSizeIn * 0.7;
 
-      doc.ellipse(centerX, centerY, radiusX, radiusY, 'S', angle);
+      doc.save();
+      doc.translate(centerX, centerY);
+      doc.rotate((angle * 180) / Math.PI);
+      doc.ellipse(0, 0, radiusX, radiusY, 'S');
+      doc.restore();
     });
 
     // Footer
