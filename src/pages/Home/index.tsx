@@ -840,7 +840,8 @@ const HomePage: React.FC = () => {
                     Part of Hello Imagination Creative Activity Books · 4.6★ (14 reviews)
                   </p>
                   <p className="text-xs text-[#3e1b41] md:max-w-xl">
-                    Ready-to-cut images, journaling prompts, and gluebooking fun for kids, tweens, teens, and adults.
+                    Ready-to-cut images, journaling prompts, and gluebooking fun for kids, tweens,
+                    teens, and adults.
                   </p>
                 </div>
               </div>
