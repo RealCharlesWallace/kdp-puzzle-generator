@@ -280,8 +280,8 @@ export class PuzzlePDFGenerator {
     const lineRgb = this.hexToRgb(theme.colors.answerLine);
     const gridBgRgb = this.hexToRgb(theme.colors.gridBackground);
     doc.setDrawColor(lineRgb[0], lineRgb[1], lineRgb[2]);
-    const outerWidth = Math.max(0.01, cellSizeIn * 0.45);
-    const innerWidth = outerWidth * 0.45;
+    const outerWidth = Math.max(0.01, cellSizeIn * 0.9);
+    const innerWidth = outerWidth * 0.5;
     doc.setLineWidth(outerWidth);
     doc.setLineCap('round');
     doc.setLineJoin('round');
