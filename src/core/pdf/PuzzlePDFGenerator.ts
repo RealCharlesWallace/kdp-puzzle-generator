@@ -293,7 +293,9 @@ export class PuzzlePDFGenerator {
       const dx = endX - startX;
       const dy = endY - startY;
       const length = Math.sqrt(dx * dx + dy * dy);
-      if (length === 0) return;
+      if (length === 0) {
+        return;
+      }
 
       const ux = dx / length;
       const uy = dy / length;
