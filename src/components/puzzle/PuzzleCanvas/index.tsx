@@ -126,13 +126,55 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
-    // Draw solution lines under letters for clarity
+    // Draw solution outlines under letters for clarity
     if (showSolution) {
       ctx.save();
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.shadowColor = 'transparent';
       ctx.shadowBlur = 0;
+      ctx.strokeStyle = `${theme.colors.answerLine}CC`;
+      const outline = (
+        sx: number,
+        sy: number,
+        ex: number,
+        ey: number
+      ): void => {
+        const dx = ex - sx;
+        const dy = ey - sy;
+        const length = Math.sqrt(dx * dx + dy * dy);
+        if (length === 0) {
+          const r = cellSize * 0.6;
+          ctx.lineWidth = Math.max(2, cellSize * 0.15);
+          ctx.beginPath();
+          ctx.arc(sx, sy, r, 0, Math.PI * 2);
+          ctx.stroke();
+          return;
+        }
+        const ux = dx / length;
+        const uy = dy / length;
+        const perpX = -uy;
+        const perpY = ux;
+        const extend = cellSize * 0.5;
+        const halfThickness = cellSize * 0.55;
+
+        const startEdge = { x: sx - ux * extend, y: sy - uy * extend };
+        const endEdge = { x: ex + ux * extend, y: ey + uy * extend };
+
+        const A = { x: startEdge.x + perpX * halfThickness, y: startEdge.y + perpY * halfThickness };
+        const B = { x: endEdge.x + perpX * halfThickness, y: endEdge.y + perpY * halfThickness };
+        const C = { x: endEdge.x - perpX * halfThickness, y: endEdge.y - perpY * halfThickness };
+        const D = { x: startEdge.x - perpX * halfThickness, y: startEdge.y - perpY * halfThickness };
+
+        ctx.lineWidth = Math.max(2, cellSize * 0.15);
+        ctx.beginPath();
+        ctx.moveTo(A.x, A.y);
+        ctx.lineTo(B.x, B.y);
+        ctx.lineTo(C.x, C.y);
+        ctx.lineTo(D.x, D.y);
+        ctx.closePath();
+        ctx.stroke();
+      };
 
       placedWords.forEach((word) => {
         if (word.positions.length === 0) {
@@ -151,16 +193,7 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
         const endX = padding + endPos.col * cellSize + cellSize / 2;
         const endY = padding + endPos.row * cellSize + cellSize / 2;
 
-        const gradient = ctx.createLinearGradient(startX, startY, endX, endY);
-        gradient.addColorStop(0, theme.colors.answerLine + 'AA');
-        gradient.addColorStop(1, theme.colors.answerLine + '66');
-
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = Math.max(2, cellSize * 0.18);
-        ctx.beginPath();
-        ctx.moveTo(startX, startY);
-        ctx.lineTo(endX, endY);
-        ctx.stroke();
+        outline(startX, startY, endX, endY);
       });
 
       ctx.restore();
