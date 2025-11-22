@@ -75,7 +75,8 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
     const availableWidth = Math.max(0, dimensions.width - padding * 2);
     const availableHeight = Math.max(0, dimensions.height - padding * 2);
     const maxDrawableSize = Math.min(availableWidth, availableHeight);
-    const cellSize = Math.max(8, maxDrawableSize / grid.size); // Use full inner space; min size keeps small grids legible
+    const minCellSize = 14;
+    const cellSize = Math.max(minCellSize, Math.min(maxDrawableSize / grid.size, 32));
 
     const width = grid.size * cellSize + padding * 2;
     const height = grid.size * cellSize + padding * 2;
@@ -286,7 +287,7 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
   return (
     <div
       ref={containerRef}
-      className="flex h-full min-h-[55vh] w-full items-center justify-center overflow-hidden rounded-xl p-3 shadow-lg transition-all duration-300 sm:min-h-0 sm:p-6"
+      className="flex h-full min-h-[55vh] w-full items-center justify-center overflow-auto rounded-xl p-3 shadow-lg transition-all duration-300 sm:min-h-0 sm:p-6"
       style={{
         width: '100%',
         height: '100%',
