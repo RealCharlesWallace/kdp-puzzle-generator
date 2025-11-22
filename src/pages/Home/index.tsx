@@ -709,7 +709,7 @@ const HomePage: React.FC = () => {
         </aside>
 
         {/* Main Content */}
-        <section className="relative flex min-h-[60vh] flex-1 flex-col gap-6 overflow-hidden rounded-xl border border-white/60 bg-white p-6 shadow-sm md:min-h-0">
+        <section className="relative flex min-h-[70vh] flex-1 flex-col gap-6 overflow-hidden rounded-xl border border-white/60 bg-white p-6 shadow-sm md:min-h-[60vh]">
           <div className="z-10 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-slate-800">Preview</h2>
             <div className="flex items-center gap-2">
@@ -725,7 +725,7 @@ const HomePage: React.FC = () => {
             </div>
           </div>
 
-          <div className="relative flex min-h-[50vh] flex-1 items-center justify-center overflow-hidden md:min-h-0">
+          <div className="relative flex min-h-[50vh] flex-1 items-stretch justify-center overflow-hidden md:min-h-0">
             {/* Background Pattern */}
             <div
               className="pointer-events-none absolute inset-0 opacity-[0.03]"
@@ -736,7 +736,7 @@ const HomePage: React.FC = () => {
             ></div>
 
             {currentPuzzle ? (
-              <div className="animate-in fade-in zoom-in-95 relative z-10 h-full max-h-full w-full max-w-full transform transition-all duration-500 ease-out">
+              <div className="animate-in fade-in zoom-in-95 relative z-10 h-full w-full transform transition-all duration-500 ease-out">
                 <PuzzleCanvas
                   grid={currentPuzzle.grid}
                   placedWords={currentPuzzle.placedWords}
@@ -745,7 +745,7 @@ const HomePage: React.FC = () => {
                 />
               </div>
             ) : (
-              <div className="z-10 text-center text-slate-400">
+              <div className="z-10 flex h-full w-full flex-col items-center justify-center text-center text-slate-400">
                 <div className="animate-bounce-slow mb-6 text-7xl opacity-50">🧩</div>
                 <p className="mb-2 text-xl font-semibold text-slate-600">Ready to create?</p>
                 <p className="mx-auto max-w-xs text-sm text-slate-500">
