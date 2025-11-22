@@ -284,8 +284,11 @@ export class PuzzlePDFGenerator {
 
     // Draw hollow strokes around found words (aligned with word orientation)
     const lineRgb = this.hexToRgb(theme.colors.answerLine);
+    const gridBgRgb = this.hexToRgb(theme.colors.gridBackground);
     doc.setDrawColor(lineRgb[0], lineRgb[1], lineRgb[2]);
-    doc.setLineWidth(Math.max(0.01, cellSizeIn * 0.45));
+    const outerWidth = Math.max(0.01, cellSizeIn * 0.45);
+    const innerWidth = outerWidth * 0.45;
+    doc.setLineWidth(outerWidth);
     doc.setLineCap('round');
     doc.setLineJoin('round');
 
@@ -306,6 +309,14 @@ export class PuzzlePDFGenerator {
       const ex = endX + ux * extend;
       const ey = endY + uy * extend;
 
+      // Outer stroke
+      doc.setLineWidth(outerWidth);
+      doc.setDrawColor(lineRgb[0], lineRgb[1], lineRgb[2]);
+      doc.line(sx, sy, ex, ey);
+
+      // Inner hollow stroke to keep letters visible
+      doc.setLineWidth(innerWidth);
+      doc.setDrawColor(gridBgRgb[0], gridBgRgb[1], gridBgRgb[2]);
       doc.line(sx, sy, ex, ey);
     };
 
