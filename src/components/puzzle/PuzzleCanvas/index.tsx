@@ -143,12 +143,14 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
         const length = Math.sqrt(dx * dx + dy * dy);
         if (length === 0) {
           const r = cellSize * 0.6;
-          ctx.lineWidth = Math.max(2, cellSize * 0.25);
+          const outerWidth = Math.max(2, cellSize * 0.45);
+          const innerWidth = outerWidth * 0.45;
+          ctx.lineWidth = outerWidth;
           ctx.beginPath();
           ctx.arc(sx, sy, r, 0, Math.PI * 2);
           ctx.strokeStyle = outerStroke;
           ctx.stroke();
-          ctx.lineWidth = Math.max(1, cellSize * 0.12);
+          ctx.lineWidth = innerWidth;
           ctx.strokeStyle = innerStroke;
           ctx.stroke();
           return;
@@ -161,13 +163,15 @@ export const PuzzleCanvas: React.FC<PuzzleCanvasProps> = ({
         const exExt = ex + ux * extend;
         const eyExt = ey + uy * extend;
 
-        ctx.lineWidth = Math.max(2, cellSize * 0.25);
+        const outerWidth = Math.max(2, cellSize * 0.45);
+        const innerWidth = outerWidth * 0.45;
+        ctx.lineWidth = outerWidth;
         ctx.beginPath();
         ctx.moveTo(sxExt, syExt);
         ctx.lineTo(exExt, eyExt);
         ctx.strokeStyle = outerStroke;
         ctx.stroke();
-        ctx.lineWidth = Math.max(1, cellSize * 0.12);
+        ctx.lineWidth = innerWidth;
         ctx.strokeStyle = innerStroke;
         ctx.stroke();
       };
