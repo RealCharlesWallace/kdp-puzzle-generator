@@ -306,16 +306,12 @@ export class PuzzlePDFGenerator {
       const dx = endX - startX;
       const dy = endY - startY;
       const length = Math.sqrt(dx * dx + dy * dy);
-      const angle = Math.atan2(dy, dx);
 
+      // Axis-aligned oval around the word so letters stay visible
       const radiusX = length / 2 + cellSizeIn * 0.35;
       const radiusY = cellSizeIn * 0.7;
 
-      doc.save();
-      doc.translate(centerX, centerY);
-      doc.rotate((angle * 180) / Math.PI);
-      doc.ellipse(0, 0, radiusX, radiusY, 'S');
-      doc.restore();
+      doc.ellipse(centerX, centerY, radiusX, radiusY, 'S');
     });
 
     // Footer
