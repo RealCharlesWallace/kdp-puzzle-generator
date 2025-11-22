@@ -121,7 +121,7 @@ const HomePage: React.FC = () => {
         </div>
       </header>
 
-      <main className="container mx-auto flex flex-col gap-6 px-4 py-6 sm:px-6 sm:py-8 lg:h-[calc(100vh-73px)] lg:flex-row lg:gap-8">
+      <main className="container mx-auto flex flex-col gap-6 px-4 py-6 sm:px-6 sm:py-8 lg:flex-row lg:gap-8">
         {/* Toast notification */}
         {toastMessage && (
           <div className="fixed bottom-6 left-1/2 z-50 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 rounded-lg border border-amber-200 bg-white px-4 py-3 text-sm font-medium text-amber-800 shadow-lg">
