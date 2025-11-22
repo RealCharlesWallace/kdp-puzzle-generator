@@ -811,45 +811,44 @@ const HomePage: React.FC = () => {
             </div>
           </a>
           <a
-            href={AMAZON_BOOK_URL_COLOR}
+            href={AMAZON_BOOK_URL}
             target="_blank"
             rel="noreferrer"
-            aria-label="View I Like to Color & Draw on Amazon"
+            aria-label="View I Like to Cut & Paste Stuff on Amazon"
             className="mt-4 block rounded-2xl border border-primary-100 bg-gradient-to-r from-[#ff5dc6] via-[#ff8bd1] to-[#ffd6f2] p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-300/80 focus-visible:ring-offset-2 md:p-8"
           >
             <div className="grid gap-6 md:grid-cols-[1.1fr_0.9fr] md:items-center">
               <div className="flex gap-4">
                 <div className="hidden h-32 w-24 shrink-0 overflow-hidden rounded-xl border border-primary-100 shadow-sm sm:block">
                   <img
-                    src={`${import.meta.env.BASE_URL}assets/images/I%20Like%20to%20Color%20and%20Draw.jpg`}
-                    alt="I Like to Color & Draw book cover"
+                    src={`${import.meta.env.BASE_URL}assets/images/I%20Like%20to%20Cut%20and%20Paste%20Stuff%20Cover.jpg`}
+                    alt="I Like to Cut & Paste Stuff book cover"
                     className="h-full w-full object-cover"
                   />
                 </div>
                 <div className="space-y-2">
                   <div className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-primary-700">
-                    New
+                    Recommended
                   </div>
                   <h3 className="text-lg font-semibold text-[#14001b]">
-                    I Like to Color &amp; Draw
+                    I Like to Cut &amp; Paste Stuff
                   </h3>
                   <p className="text-sm font-medium text-[#2a0b2e]">
-                    Whimsical Imagination Art Journal for Kids, Tweens, and Teens
+                    Creative gluebook journal with prompts and hand-drawn art for all ages.
                   </p>
                   <p className="text-xs text-[#3e1b41]">
-                    Part of Hello Imagination Creative Activity Books
+                    Part of Hello Imagination Creative Activity Books · 4.6★ (14 reviews)
                   </p>
                   <p className="text-xs text-[#3e1b41] md:max-w-xl">
-                    Doodle prompts, coloring pages, and playful drawing starters to spark creativity
-                    anytime.
+                    Ready-to-cut images, journaling prompts, and gluebooking fun for kids, tweens, teens, and adults.
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-4 md:justify-end">
                 <div className="h-32 w-24 shrink-0 overflow-hidden rounded-xl border border-primary-100 shadow-sm sm:hidden">
                   <img
-                    src={`${import.meta.env.BASE_URL}assets/images/I%20Like%20to%20Color%20and%20Draw.jpg`}
-                    alt="I Like to Color & Draw book cover"
+                    src={`${import.meta.env.BASE_URL}assets/images/I%20Like%20to%20Cut%20and%20Paste%20Stuff%20Cover.jpg`}
+                    alt="I Like to Cut & Paste Stuff book cover"
                     className="h-full w-full object-cover"
                   />
                 </div>
