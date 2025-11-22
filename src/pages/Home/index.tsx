@@ -9,6 +9,18 @@ import { GridBuilder } from '@/core/algorithm/GridBuilder';
 const TOAST_DURATION = 2500;
 const AMAZON_BOOK_URL =
   'https://www.amazon.com/dp/B0DKG36F8W?ref_=cm_sw_r_cp_ud_dp_08S189X0VN54S6HVCD99&starsLeft=1&skipTwisterOG=1';
+type DatamuseWord = { word: string };
+
+const isDatamuseWord = (value: unknown): value is DatamuseWord => {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'word' in value &&
+    typeof (value as Record<string, unknown>).word === 'string'
+  );
+};
+
+const isThemeKey = (token: string): token is keyof typeof THEME_SEEDS => token in THEME_SEEDS;
 const THEME_SEEDS: Record<string, string[]> = {
   space: [
     'galaxy',
@@ -385,7 +397,7 @@ const HomePage: React.FC = () => {
           const data = (await resp.json()) as unknown;
           if (Array.isArray(data)) {
             data.forEach((item) => {
-              if (item && typeof item === 'object' && 'word' in item && typeof item.word === 'string') {
+              if (isDatamuseWord(item)) {
                 const cleaned = item.word.replace(/[^a-zA-Z]/g, '');
                 if (cleaned.length > 2) {
                   apiResults.push(cleaned.toUpperCase());
@@ -401,8 +413,8 @@ const HomePage: React.FC = () => {
 
     const themeSeeds: string[] = [];
     themeTokens.forEach((token) => {
-      const list = THEME_SEEDS[token as keyof typeof THEME_SEEDS];
-      if (list) {
+      if (isThemeKey(token)) {
+        const list = THEME_SEEDS[token];
         themeSeeds.push(...list.map((w) => w.toUpperCase()));
       }
     });
