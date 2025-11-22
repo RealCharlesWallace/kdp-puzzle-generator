@@ -8,7 +8,7 @@ import { GeneratorPage } from './pages/Generator';
  */
 function App(): JSX.Element {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/generator" element={<GeneratorPage />} />

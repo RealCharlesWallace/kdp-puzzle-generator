@@ -36,9 +36,9 @@ export function GeneratorPage(): JSX.Element {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-[#ff4fc3] via-[#ff8bd1] to-[#ffd6f2]">
       {/* Header */}
-      <header className="border-b border-gray-200 bg-white">
+      <header className="border-b border-primary-100 bg-white/90 backdrop-blur">
         <div className="container-custom flex items-center justify-between py-4">
           <Link to="/" className="text-2xl font-bold text-primary-600">
             Clara
@@ -59,7 +59,7 @@ export function GeneratorPage(): JSX.Element {
         <div className="grid gap-8 lg:grid-cols-3">
           {/* Control Panel */}
           <div className="lg:col-span-1">
-            <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+            <div className="rounded-lg border border-primary-100 bg-white/95 p-6 shadow-sm">
               <h2 className="mb-4 text-xl font-semibold">Puzzle Settings</h2>
 
               {/* Word Input */}
@@ -71,7 +71,7 @@ export function GeneratorPage(): JSX.Element {
                   value={wordInput}
                   onChange={(e) => handleWordInputChange(e.target.value)}
                   placeholder="HELLO&#10;WORLD&#10;PUZZLE&#10;CREATOR&#10;AWESOME"
-                  className="h-48 w-full rounded-lg border border-gray-300 p-3 font-mono text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                  className="h-48 w-full rounded-lg border border-primary-100 p-3 font-mono text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                 />
                 <p className="mt-1 text-sm text-gray-500">
                   {words.length} words entered (minimum 5 required)
@@ -84,7 +84,7 @@ export function GeneratorPage(): JSX.Element {
                 <select
                   value={config.gridSize}
                   onChange={(e) => setGridSize(Number(e.target.value))}
-                  className="w-full rounded-lg border border-gray-300 p-2 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                  className="w-full rounded-lg border border-primary-100 p-2 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                 >
                   <option value={10}>10 × 10</option>
                   <option value={12}>12 × 12</option>
@@ -105,7 +105,7 @@ export function GeneratorPage(): JSX.Element {
                         className={`rounded-lg border-2 p-3 text-sm font-medium transition-colors ${
                           config.shape === shape
                             ? 'border-primary-600 bg-primary-50 text-primary-600'
-                            : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                            : 'border-primary-100 text-gray-700 hover:border-primary-200'
                         }`}
                       >
                         {shape.charAt(0).toUpperCase() + shape.slice(1)}
@@ -121,7 +121,7 @@ export function GeneratorPage(): JSX.Element {
                 <select
                   value={config.difficulty}
                   onChange={(e) => setDifficulty(e.target.value as DifficultyLevel)}
-                  className="w-full rounded-lg border border-gray-300 p-2 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                  className="w-full rounded-lg border border-primary-100 p-2 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                 >
                   <option value="easy">Easy</option>
                   <option value="medium">Medium</option>
@@ -139,7 +139,7 @@ export function GeneratorPage(): JSX.Element {
               <button
                 onClick={handleGenerate}
                 disabled={isGenerating || words.length < 5}
-                className="w-full rounded-lg bg-primary-600 py-3 font-semibold text-white transition-colors hover:bg-primary-700 disabled:cursor-not-allowed disabled:bg-gray-300"
+                className="w-full rounded-lg bg-primary-600 py-3 font-semibold text-white transition-colors hover:bg-primary-700 disabled:cursor-not-allowed disabled:bg-primary-200"
               >
                 {isGenerating ? 'Generating...' : 'Generate Puzzle'}
               </button>
@@ -148,9 +148,9 @@ export function GeneratorPage(): JSX.Element {
 
           {/* Preview Panel */}
           <div className="lg:col-span-2">
-            <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+            <div className="rounded-lg border border-primary-100 bg-white/95 p-6 shadow-sm">
               <h2 className="mb-4 text-xl font-semibold">Preview</h2>
-              <div className="flex min-h-[500px] items-center justify-center rounded-lg bg-gray-50">
+              <div className="flex min-h-[500px] items-center justify-center rounded-lg bg-primary-50">
                 <p className="text-gray-500">
                   {words.length < 5
                     ? 'Enter at least 5 words to generate a puzzle'
@@ -162,13 +162,13 @@ export function GeneratorPage(): JSX.Element {
               <div className="mt-6 flex gap-4">
                 <button
                   disabled
-                  className="flex-1 rounded-lg bg-gray-300 py-2 font-medium text-gray-500"
+                  className="flex-1 rounded-lg bg-primary-200 py-2 font-medium text-primary-700"
                 >
                   Download PDF
                 </button>
                 <button
                   disabled
-                  className="flex-1 rounded-lg bg-gray-300 py-2 font-medium text-gray-500"
+                  className="flex-1 rounded-lg bg-primary-200 py-2 font-medium text-primary-700"
                 >
                   Download ZIP
                 </button>

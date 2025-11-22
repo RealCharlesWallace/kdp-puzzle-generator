@@ -97,8 +97,8 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-rose-50 to-sky-50 font-sans text-slate-900">
-      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200/60 bg-white/85 px-6 py-4 shadow-sm backdrop-blur-md">
+    <div className="min-h-screen bg-gradient-to-br from-[#ff4fc3] via-[#ff8bd1] to-[#ffd6f2] font-sans text-[#14001b]">
+      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-primary-100/60 bg-white/85 px-6 py-4 shadow-sm backdrop-blur-md">
         <div className="flex items-center gap-2">
           <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-amber-100 bg-gradient-to-br from-pink-200 to-amber-200 shadow">
             <img
@@ -107,14 +107,14 @@ const HomePage: React.FC = () => {
               className="h-full w-full object-cover"
             />
           </div>
-          <h1 className="bg-gradient-to-r from-slate-900 to-blue-700 bg-clip-text text-xl font-bold tracking-tight text-transparent">
+          <h1 className="bg-gradient-to-r from-[#14001b] via-primary-700 to-secondary-500 bg-clip-text text-xl font-bold tracking-tight text-transparent">
             Hello Word Puzzles
           </h1>
         </div>
         <div className="flex items-center gap-4">
           <button
             onClick={() => setShowDocs(true)}
-            className="inline-flex items-center gap-2 rounded-md bg-gradient-to-r from-slate-900 to-blue-700 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:shadow-md active:scale-95"
+            className="inline-flex items-center gap-2 rounded-md bg-gradient-to-r from-primary-600 via-primary-500 to-secondary-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:shadow-md active:scale-95"
           >
             Instructions
           </button>
@@ -150,7 +150,7 @@ const HomePage: React.FC = () => {
                     setTitle(e.target.value);
                   }}
                   placeholder="e.g. Summer Vacation Search"
-                  className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                  className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
                 />
                 <div className="text-right text-xs text-slate-500">
                   {titleInput.length}/{maxTitleLength}
@@ -161,7 +161,7 @@ const HomePage: React.FC = () => {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <label className="text-sm font-medium text-slate-700">Grid Size</label>
-                <label className="cursor-pointer text-xs font-semibold text-blue-600 underline">
+                <label className="cursor-pointer text-xs font-semibold text-primary-700 underline">
                   <input
                     type="file"
                     accept=".csv,text/csv,text/tab-separated-values,.tsv,.txt"
@@ -180,9 +180,9 @@ const HomePage: React.FC = () => {
                   max="25"
                   value={config.gridSize}
                   onChange={(e) => setGridSize(parseInt(e.target.value))}
-                  className="flex-1 cursor-pointer accent-blue-600"
+                  className="flex-1 cursor-pointer accent-primary-500"
                 />
-                <span className="w-6 text-center font-mono text-sm font-semibold text-blue-600">
+                <span className="w-6 text-center font-mono text-sm font-semibold text-primary-700">
                   {config.gridSize}
                 </span>
               </div>
@@ -194,7 +194,7 @@ const HomePage: React.FC = () => {
                 <select
                   value={config.difficulty}
                   onChange={(e) => setDifficulty(e.target.value as DifficultyLevel)}
-                  className="w-full cursor-pointer appearance-none rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                  className="w-full cursor-pointer appearance-none rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
                 >
                   <option value="easy">Easy</option>
                   <option value="medium">Medium</option>
@@ -213,7 +213,7 @@ const HomePage: React.FC = () => {
                 <select
                   value={config.shape}
                   onChange={(e) => setShape(e.target.value as ShapeType)}
-                  className="w-full cursor-pointer appearance-none rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                  className="w-full cursor-pointer appearance-none rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
                 >
                   <option value="rectangle">Rectangle</option>
                   <option value="circle">Circle</option>
@@ -234,7 +234,7 @@ const HomePage: React.FC = () => {
                 <select
                   value={pdfTheme}
                   onChange={(e) => setPdfTheme(e.target.value)}
-                  className="w-full cursor-pointer appearance-none rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                  className="w-full cursor-pointer appearance-none rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
                 >
                   {getAllThemes().map((theme) => (
                     <option key={theme.id} value={theme.id}>
@@ -257,7 +257,7 @@ const HomePage: React.FC = () => {
               <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400">
                 Word List
               </h2>
-              <span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700">
+              <span className="rounded-full bg-primary-100 px-2 py-0.5 text-xs font-medium text-primary-700">
                 {words.length}
               </span>
             </div>
@@ -265,7 +265,7 @@ const HomePage: React.FC = () => {
               value={inputWords}
               onChange={handleWordsChange}
               placeholder="Enter words (one per line)"
-              className="w-full flex-1 resize-none rounded-lg border border-slate-200 bg-white px-3 py-2 font-mono text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              className="w-full flex-1 resize-none rounded-lg border border-slate-200 bg-white px-3 py-2 font-mono text-sm shadow-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
             />
             {error && (
               <div className="flex items-start gap-2 rounded-lg border border-red-100 bg-red-50 p-3 text-xs text-red-600">
@@ -284,7 +284,7 @@ const HomePage: React.FC = () => {
               <button
                 onClick={handleGenerateClick}
                 disabled={generationBlocked}
-                className="w-full rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 font-semibold text-white shadow-md transition-all hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full rounded-lg bg-gradient-to-r from-primary-500 via-primary-600 to-secondary-500 px-4 py-3 font-semibold text-white shadow-md transition-all hover:from-primary-600 hover:via-primary-700 hover:to-secondary-600 hover:shadow-lg active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {isGenerating ? 'Generating...' : 'Generate Puzzle'}
               </button>
@@ -305,7 +305,7 @@ const HomePage: React.FC = () => {
                   onClick={() => {
                     void exportCopies(copyCount);
                   }}
-                  className="w-full justify-self-start rounded-md bg-slate-900 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:shadow-md sm:w-auto sm:justify-self-end"
+                  className="w-full justify-self-start rounded-md bg-[#14001b] px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:shadow-md sm:w-auto sm:justify-self-end"
                 >
                   Export PDFs
                 </button>
@@ -319,12 +319,12 @@ const HomePage: React.FC = () => {
           <div className="z-10 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-slate-800">Preview</h2>
             <div className="flex items-center gap-2">
-              <label className="flex cursor-pointer select-none items-center gap-2 text-sm font-medium text-slate-600 transition-colors hover:text-slate-900">
+              <label className="flex cursor-pointer select-none items-center gap-2 text-sm font-medium text-slate-600 transition-colors hover:text-[#14001b]">
                 <input
                   type="checkbox"
                   checked={showSolution}
                   onChange={(e) => setShowSolution(e.target.checked)}
-                  className="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                  className="rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                 />
                 Show Solution
               </label>
@@ -336,7 +336,7 @@ const HomePage: React.FC = () => {
             <div
               className="pointer-events-none absolute inset-0 opacity-[0.03]"
               style={{
-                backgroundImage: 'radial-gradient(#4f46e5 1px, transparent 1px)',
+                backgroundImage: 'radial-gradient(#ff5dc6 1px, transparent 1px)',
                 backgroundSize: '20px 20px',
               }}
             ></div>
@@ -370,11 +370,11 @@ const HomePage: React.FC = () => {
             target="_blank"
             rel="noreferrer"
             aria-label="View I Like to Cut & Paste Stuff on Amazon"
-            className="mt-6 block rounded-2xl border border-amber-100 bg-gradient-to-r from-amber-50 via-rose-50 to-sky-50 p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/60 focus-visible:ring-offset-2 md:p-8"
+            className="mt-6 block rounded-2xl border border-primary-100 bg-gradient-to-r from-[#ff5dc6] via-[#ff8bd1] to-[#ffd6f2] p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-300/80 focus-visible:ring-offset-2 md:p-8"
           >
             <div className="grid gap-6 md:grid-cols-[1.1fr_0.9fr] md:items-center">
               <div className="flex gap-4">
-                <div className="hidden h-32 w-24 shrink-0 overflow-hidden rounded-xl border border-amber-100 shadow-sm sm:block">
+                <div className="hidden h-32 w-24 shrink-0 overflow-hidden rounded-xl border border-primary-100 shadow-sm sm:block">
                   <img
                     src={`${import.meta.env.BASE_URL}book-cover.jpg`}
                     alt="I Like to Cut & Paste Stuff book cover"
@@ -382,33 +382,33 @@ const HomePage: React.FC = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <div className="inline-flex items-center gap-2 rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800">
+                  <div className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-primary-700">
                     Recommended
                   </div>
-                  <h3 className="text-lg font-semibold text-slate-900">
+                  <h3 className="text-lg font-semibold text-[#14001b]">
                     I Like to Cut &amp; Paste Stuff
                   </h3>
-                  <p className="text-sm font-medium text-slate-700">
+                  <p className="text-sm font-medium text-[#2a0b2e]">
                     Explore Your Creativity In This Creative Gluebook Journal for All Ages
                   </p>
-                  <p className="text-xs text-slate-600">
+                  <p className="text-xs text-[#3e1b41]">
                     Part of Hello Imagination Creative Activity Books · 4.6★ (14 reviews)
                   </p>
-                  <p className="text-xs text-slate-600 md:max-w-xl">
+                  <p className="text-xs text-[#3e1b41] md:max-w-xl">
                     Gluebooking fun with hand-drawn art, journaling prompts, and ready-to-cut images
                     to jump-start creative play for kids, tweens, teens, and adults.
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-4 md:justify-end">
-                <div className="h-32 w-24 shrink-0 overflow-hidden rounded-xl border border-amber-100 shadow-sm sm:hidden">
+                <div className="h-32 w-24 shrink-0 overflow-hidden rounded-xl border border-primary-100 shadow-sm sm:hidden">
                   <img
                     src={`${import.meta.env.BASE_URL}book-cover.jpg`}
                     alt="I Like to Cut & Paste Stuff book cover"
                     className="h-full w-full object-cover"
                   />
                 </div>
-                <div className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 px-4 py-3 text-sm font-semibold text-amber-900 shadow-sm">
+                <div className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-primary-600 via-primary-500 to-secondary-500 px-4 py-3 text-sm font-semibold text-white shadow-sm">
                   <span>View on Amazon</span>
                   <span aria-hidden>↗</span>
                 </div>
